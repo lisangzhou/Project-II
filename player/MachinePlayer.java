@@ -1,5 +1,5 @@
 /* MachinePlayer.java */
-//testing github commit
+
 package player;
 
 /**
