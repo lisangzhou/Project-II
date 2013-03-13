@@ -1,6 +1,8 @@
+package player;
 public class EvaluatedMove{
 
     // fields
+    //(NEGATIVE_INFINITY,POSITIVE_INFINITY) range of the value
     protected Move move;
     protected double value;
     
