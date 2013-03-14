@@ -19,7 +19,7 @@ public class MachinePlayer extends Player {
     public MachinePlayer(int color) {
         this.color=color;
         this.depth=DEEP;
-        board=new board();
+        board=new Board();
     }
     
     // Creates a machine player with the given color and search depth.  Color is
@@ -27,7 +27,7 @@ public class MachinePlayer extends Player {
     public MachinePlayer(int color, int searchDepth) {
         this.color=color;
         this.depth=searchDepth;
-        board=new board();
+        board=new Board();
     }
     
     // Returns a new move by "this" player.  Internally records the move (updates
@@ -59,8 +59,15 @@ public class MachinePlayer extends Player {
      * positive score to a win by the MachinePlayer, a minimum negative score to
      * win by the opponent, and an intermediate score to a board where neither
      * player has completed a network.
+     * @param b is the Board object being evaluated
+     * @param player is the player whose turn it is
     **/
     public double evaluateMove(Board b, int player){
+      if(b.isNetworkComplete(player)){
+        return Double.POSITIVE_INFINITY;
+      } else if(){
+        
+      }
     
     } 
     
