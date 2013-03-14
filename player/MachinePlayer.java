@@ -63,12 +63,15 @@ public class MachinePlayer extends Player {
      * @param player is the player whose turn it is
     **/
     public double evaluateMove(Board b, int player){
-      if(b.isNetworkComplete(player)){
+      if(b.isNetworkComplete(changePlayer(player))){
+        return Double.NEGATIVE_INFINITY;
+      } else if(b.isNetworkComplete(player)){
         return Double.POSITIVE_INFINITY;
-      } else if(){
-        
       }
     
     } 
     
+    public int changePlayer(int player){
+      return (3 - player) % 3;
+    }
 }
