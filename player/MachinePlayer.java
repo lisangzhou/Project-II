@@ -108,6 +108,6 @@ public class MachinePlayer extends Player {
     } 
     
     public int changePlayer(int player){
-      return (3 - player) % 3;
+      return 2 % (1 + player);
     }
 }
