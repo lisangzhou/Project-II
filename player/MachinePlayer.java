@@ -33,9 +33,17 @@ public class MachinePlayer extends Player {
     
     // Returns a new move by "this" player.  Internally records the move (updates
     // the internal game board) as a move by "this" player.
-    public Move chooseMove() {
+    public Move chooseMove(){
+        Move temp=miniMax(this.color,this.depth);
+        // miniMax function doesn't exist right now
+        // find the best move
+        moving(temp,this.color);
+        // after finding the best move, do it and make a change
         
-        return new Move();
+        // return this move
+        return temp;
+        
+            
     }
     
     // If the Move m is legal, records the move as a move by the opponent
@@ -43,7 +51,7 @@ public class MachinePlayer extends Player {
     // illegal, returns false without modifying the internal state of "this"
     // player.  This method allows your opponents to inform you of their moves.
     public boolean opponentMove(Move m) {
-        return false;
+        return moving(m,colorOpponent());
     }
     
     // If the Move m is legal, records the move as a move by "this" player
@@ -52,8 +60,35 @@ public class MachinePlayer extends Player {
     // player.  This method is used to help set up "Network problems" for your
     // player to solve.
     public boolean forceMove(Move m) {
-        return false;
+        return moving(m,color);
     }
+    
+    
+    // private function used by chooseMove, opponentMove, and forceMove
+    private boolean moving(Move m, int color){
+    
+    
+        // no idea how to move for now LOL
+    
+    }
+
+    // getting the color of the opponet
+    private int colorOpponent(){
+        if(this.color==Board.BLACK){
+            return Board.WHITE;
+        }else{
+            return Board.BLACK;
+        }
+    }
+    
+    // miniMax function to be used later
+    private Move miniMax(int color, int depth){
+    
+        // no idea how to find it lol
+    
+    }
+    
+    
     
     /**
      * Evaluates moves, assigning a score to each one. It assigns a maximum
