@@ -1,7 +1,8 @@
 /* MachinePlayer.java */
+package player;
+
 import list.*;
 import java.util.Random;
-package player;
 
 /**
  *  An implementation of an automatic Network player.  Keeps track of moves
@@ -9,7 +10,7 @@ package player;
  */
 public class MachinePlayer extends Player {
     
-    public static final DEEP=10;
+    public static final int DEEP=10;
     protected int color;
     protected int depth=DEEP;
     protected Board board;
