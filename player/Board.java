@@ -29,10 +29,89 @@ public class Board {
 	
 	private boolean isValidMove(Move m, int player)
 	{
-		
+		if (m == null)
+			return false;
+		if (m.moveKind == Move.QUIT)
+			return true;
+		if (player != BLACK && player != WHITE)
+			return false;
+		if (m.x1 < 0 || m.x1 > 7 || m.y1 < 0 || m.y2 > 7 || m.x2 < 0 || m.x2 > 7 || m.y1 < 0 || m.y1 > 7 || m.y2 < 0 || m.y2 > 7)
+			return false;
+		if ((m.x1 == 0 || m.x1 == 7) && (m.y1 == 0 || m.y1 == 7))
+			return false;
+		if (m.x2 == m.x1 && m.y2 == m.y1)
+			return false;
+		if (board[m.y1][m.x1] != EMPTY)
+			return false;
+		if (player == WHITE)
+		{
+			for (int i = 1; i < 7; i++)
+			{
+				if ((m.x1 == i && m.y1 == 7) || (m.x1 == i && m.y1 == 0))
+					return false;
+			}
+		}
+		else
+		{
+			for (int i = 1; i < 7; i++)
+			{
+				if ((m.x1 == 0 && m.y1 == i) || (m.x1 == 7 && m.y1 == i))
+					return false;
+			}
+		}
+		DList n = neighbors(m.x1,m.y1, player);
+		if (n.length() > 1)
+			return false;
+		else
+		{
+			DList n1 = new DList();
+			try {
+				n1 = neighbors(( (Coordinate) n.front().item()).getX(), ((Coordinate) n.front().item()).getY(), player);
+			} catch (InvalidNodeException e) {
+
+			}
+			if (n1.length() > 1)
+				return false;
+		}
+		if (m.moveKind == Move.ADD)
+		{
+			if (player == BLACK)
+			{
+				if (blackpieces > 10)
+					return false;
+			}
+			else 
+			{
+				if (whitepieces > 10)
+					return false;
+			}
+		}
+		if (m.moveKind == Move.STEP)
+		{
+			if (getPiece(m.x2,m.y2) != player)
+				return false;
+			if (player == BLACK && blackpieces < 10)
+				return false;
+			if (player == WHITE && whitepieces < 10)
+				return false;
+		}
 		return true;
 	}
 	
+	 private DList neighbors (int i, int j, int player)
+	  {
+		 DList neighbors = new DList();
+		 for (int a = -1; a <= 1; a++)
+			 for (int b = -1; b <=1; b++)
+			 {
+				 if ((a != 0 || b != 0) && (j+ a >= 0) && (j + a <=7) && (i + b >= 0) && (i + a <= 7))
+				 {
+					 if (board[j+a][i+b] == player)
+						 neighbors.insertBack(new Coordinate(i,j)); 
+				 }
+			 }
+		 return neighbors;
+	  }
 	public boolean makeMove (Move m, int player)
 	{
 		if (m.moveKind == Move.ADD)
@@ -71,7 +150,8 @@ public class Board {
 			board[m.y2][m.x2] = EMPTY;
 			return true;
 		}
-		return false;
+		else
+			return false;
 	}
 	
 	public int getAddsRemaning(int player)
