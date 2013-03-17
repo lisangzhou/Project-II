@@ -213,6 +213,66 @@ public class Board {
 		}
 		return allMoves;
 	}
+	
+	public DList getAllConnections(int player, Coordinate c)
+	{
+		DList connections = new DList();
+		for (int i = 0; i < 8; i++)
+		{
+			Coordinate neighbor = incrementDirection(i, c);
+			while (neighbor.getX() < 8 && neighbor.getX() > 0 && neighbor.getY() > 0 && neighbor.getY() < 8)	
+			{
+				if (getPiece(neighbor.getX(), neighbor.getY()) == player)
+				{
+					connections.insertBack(neighbor);
+				}
+				else if (getPiece(neighbor.getX(), neighbor.getY()) != EMPTY)
+				{
+					break;
+				}
+				else
+				{
+					neighbor = incrementDirection(i, neighbor); 
+				}
+			}
+		}
+		return connections;
+		
+	}
+	
+	private Coordinate incrementDirection (int i, Coordinate c)
+	{
+		int neighborX = 0, neighborY = 0;
+		switch (i)
+		{
+			case 0:
+				neighborX = c.getX()+1;
+				neighborY = c.getY()+1;
+			case 1:
+				neighborX = c.getX()-1;
+				neighborY = c.getY()-1;
+			case 2:
+				neighborX = c.getX()+1;
+				neighborY = c.getY()-1;
+			case 3:
+				neighborX = c.getX()-1;
+				neighborY = c.getY()+1;
+			case 4:
+				neighborX = c.getX();
+				neighborY = c.getY()+1;
+			case 5:
+				neighborX = c.getX();
+				neighborY = c.getY()-1;
+			case 6:
+				neighborX = c.getX()+1;
+				neighborY = c.getY();
+			case 7:
+				neighborX = c.getX()-1;
+				neighborY = c.getY();
+		}
+		return new Coordinate(neighborX, neighborY);
+	}
+	
 }
 /*
 
