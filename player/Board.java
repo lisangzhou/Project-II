@@ -14,95 +14,90 @@ public class Board {
   
   public Board(){
     board = new int[8][8];
-    for (int i = 0; i < 8; i++)
-      for (int j = 0; j < 8; j++)
-      {
+    for (int i = 0; i < 8; i++){
+      for (int j = 0; j < 8; j++){
         board[i][j] = EMPTY;
       }
+    }
     blackpieces = 0;
     whitepieces = 0;
   }
   
-  public int getPiece(int x, int y)
-  {
+  public int getPiece(int x, int y){
     return board[y][x];
   }
   
-  public boolean isValidMove(Move m, int player)
-  {
-    if (m == null)
+  public boolean isValidMove(Move m, int player){
+    if (m == null){
       return false;
-    if (m.moveKind == Move.QUIT)
+    }
+    if (m.moveKind == Move.QUIT){
       return true;
-    if (player != BLACK && player != WHITE)
+    }
+    if (player != BLACK && player != WHITE){
       return false;
-    if (m.x1 < 0 || m.x1 > 7 || m.y1 < 0 || m.y2 > 7 || m.x2 < 0 || m.x2 > 7 || m.y1 < 0 || m.y1 > 7 || m.y2 < 0 || m.y2 > 7)
+    }
+    if (m.x1 < 0 || m.x1 > 7 || m.y1 < 0 || m.y2 > 7 || m.x2 < 0 || m.x2 > 7 || m.y1 < 0 || m.y1 > 7 || m.y2 < 0 || m.y2 > 7){
       return false;
-    if ((m.x1 == 0 || m.x1 == 7) && (m.y1 == 0 || m.y1 == 7))
+    }
+    if ((m.x1 == 0 || m.x1 == 7) && (m.y1 == 0 || m.y1 == 7)){
       return false;
-    if (m.x2 == m.x1 && m.y2 == m.y1)
+    }
+    if (m.x2 == m.x1 && m.y2 == m.y1){
       return false;
-    if (board[m.y1][m.x1] != EMPTY)
+    }
+    if (board[m.y1][m.x1] != EMPTY){
       return false;
-    if (player == WHITE)
-    {
-      for (int i = 1; i < 7; i++)
-      {
-        if ((m.x1 == i && m.y1 == 7) || (m.x1 == i && m.y1 == 0))
+    }
+    if (player == WHITE){
+      for (int i = 1; i < 7; i++){
+        if ((m.x1 == i && m.y1 == 7) || (m.x1 == i && m.y1 == 0)){
           return false;
+        }
       }
     }
-    else
-    {
-      for (int i = 1; i < 7; i++)
-      {
-        if ((m.x1 == 0 && m.y1 == i) || (m.x1 == 7 && m.y1 == i))
+    else{
+      for (int i = 1; i < 7; i++){
+        if ((m.x1 == 0 && m.y1 == i) || (m.x1 == 7 && m.y1 == i)){
           return false;
+        }
       }
     }
     DList n = neighbors(m.x1,m.y1, player);
-    if (n.length() > 1)
+    if (n.length() > 1){
       return false;
-    else if (n.length() < 1)
+    } else if (n.length() < 1){
       return true;
-    else
-    {
+    } else {
       DList n1 = new DList();
       try {
         n1 = neighbors(( (Coordinate) n.front().item()).getX(), ((Coordinate) n.front().item()).getY(), player);
-      } catch (InvalidNodeException e) {
-
-      }
-      if (n1.length() > 1)
+      } catch (InvalidNodeException e) {}
+      if (n1.length() > 1){
         return false;
-    }
-    if (m.moveKind == Move.ADD)
-    {
-      if (player == BLACK)
-      {
-        if (blackpieces > 10)
-          return false;
-      }
-      else 
-      {
-        if (whitepieces > 10)
-          return false;
       }
     }
-    if (m.moveKind == Move.STEP)
-    {
-      if (getPiece(m.x2,m.y2) != player)
+    if (m.moveKind == Move.ADD){
+      if (player == BLACK){
+        if (blackpieces > 10){
+          return false;
+        }
+      }
+      else {
+        if (whitepieces > 10){
+          return false;
+        }
+      }
+    }
+    if (m.moveKind == Move.STEP){
+      if ((getPiece(m.x2,m.y2) != player) || (player == BLACK && blackpieces < 10) || (player == WHITE && whitepieces < 10)){
         return false;
-      if (player == BLACK && blackpieces < 10)
-        return false;
-      if (player == WHITE && whitepieces < 10)
-        return false;
+      }
     }
     return true;
   }
   
-   private DList neighbors (int i, int j, int player)
-    {
+   private DList neighbors (int i, int j, int player){
      DList neighbors = new DList();
      for (int a = -1; a <= 1; a++)
        for (int b = -1; b <=1; b++)
@@ -115,10 +110,8 @@ public class Board {
        }
      return neighbors;
     }
-  public boolean makeMove (Move m, int player)
-  {
-    if (m.moveKind == Move.ADD)
-    {
+  public boolean makeMove (Move m, int player){
+    if (m.moveKind == Move.ADD){
       board[m.y1][m.x1] = player;
       if (player == BLACK)
         blackpieces++;
