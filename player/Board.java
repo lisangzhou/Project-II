@@ -27,7 +27,7 @@ public class Board {
 		return board[y][x];
 	}
 	
-	private boolean isValidMove(Move m, int player)
+	public boolean isValidMove(Move m, int player)
 	{
 		if (m == null)
 			return false;
@@ -62,6 +62,8 @@ public class Board {
 		DList n = neighbors(m.x1,m.y1, player);
 		if (n.length() > 1)
 			return false;
+		else if (n.length() < 1)
+			return true;
 		else
 		{
 			DList n1 = new DList();
@@ -154,17 +156,62 @@ public class Board {
 			return false;
 	}
 	
-	public int getAddsRemaning(int player)
+	public int getAddsRemaining(int player)
 	{
 		if (player == BLACK)
-			return blackpieces;
+			return 10-blackpieces;
 		else
-			return whitepieces;
+			return 10-whitepieces;
 	}
 	
 	public DList generateAllPossibleMoves(int player)
 	{
-		
+		DList allMoves = new DList();
+		if (getAddsRemaining(player) > 0)
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					Move m = new Move(i,j);
+					if (isValidMove(m, player))
+					{
+						allMoves.insertBack(m);
+					}
+						
+				}
+			}
+		}
+		else
+		{
+			DList startPositions = new DList();
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					if (board[j][i] == player)
+						startPositions.insertBack(new Coordinate(i, j));
+				}
+			}
+			for (int k = 0; k < 8; k++)
+			{
+				for (int l = 0; l < 8; l++)
+				{
+					try 
+					{
+						Move m = new Move (k,l,((Coordinate) startPositions.front().item()).getX(), ((Coordinate) startPositions.front().item()).getY());
+						if (isValidMove(m, player))
+						{
+							allMoves.insertBack(m);
+						}
+					} 
+					catch (InvalidNodeException e) 
+					{
+					}
+				}
+			}
+		}
+		return allMoves;
 	}
 }
 /*
