@@ -44,7 +44,7 @@ public class MachinePlayer extends Player {
         // return this move
         return temp;
         
-            
+        
     }
     
     // If the Move m is legal, records the move as a move by the opponent
@@ -52,7 +52,11 @@ public class MachinePlayer extends Player {
     // illegal, returns false without modifying the internal state of "this"
     // player.  This method allows your opponents to inform you of their moves.
     public boolean opponentMove(Move m) {
+<<<<<<< HEAD
     		return moving(m, colorOpponent());
+=======
+        return moving(m, colorOpponent());
+>>>>>>> fixing errors with github; eric has a backup
     }
     
     // If the Move m is legal, records the move as a move by "this" player
@@ -73,9 +77,15 @@ public class MachinePlayer extends Player {
     		return true;
     	}
     	else
+<<<<<<< HEAD
     		return false;    
     }
 
+=======
+    		return false;
+    }
+    
+>>>>>>> fixing errors with github; eric has a backup
     // getting the color of the opponent
     private int colorOpponent(){
         if(this.color==Board.BLACK){
@@ -92,7 +102,11 @@ public class MachinePlayer extends Player {
     	
     	if (evaluateMove(board, color) == Double.NEGATIVE_INFINITY || evaluateMove(board, color) == Double.POSITIVE_INFINITY || depth == 0)
     		return new EvaluatedMove(evaluateMove(board,color));
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> fixing errors with github; eric has a backup
     	
     	if (color == this.color)
     	{
@@ -106,6 +120,7 @@ public class MachinePlayer extends Player {
     	DList allMoves = board.generateAllPossibleMoves(color);
     	try
     	{
+<<<<<<< HEAD
     	DListNode n = (DListNode) allMoves.front();
     	while (n.isValidNode())
     	{
@@ -134,6 +149,36 @@ public class MachinePlayer extends Player {
     	}
     	}
     	catch(InvalidNodeException e) 
+=======
+            DListNode n = (DListNode) allMoves.front();
+            while (n.isValidNode())
+            {
+                Move m = (Move) n.item();
+                board.makeMove(m, color);
+                reply = miniMax(colorOpponent(), depth-1, alpha, beta);
+                board.undoMove(m, colorOpponent());
+                
+                if ((color == this.color) && (reply.value >= myMove.value))
+                {
+                    myMove.move = m;
+                    myMove.value = reply.value;
+                    alpha = reply.value;
+                }
+                else if ((color == colorOpponent()) && (reply.value <= myMove.value))
+                {
+                    myMove.move = m;
+                    myMove.value = reply.value;
+                    beta = reply.value;
+                }
+                if (alpha >= beta)
+                {
+                    return myMove;
+                }
+                n = (DListNode) n.next();
+            }
+    	}
+    	catch(InvalidNodeException e)
+>>>>>>> fixing errors with github; eric has a backup
     	{
 		}
     	return myMove;
@@ -148,17 +193,18 @@ public class MachinePlayer extends Player {
      * player has completed a network.
      * @param b is the Board object being evaluated
      * @param player is the player whose turn it is
-    **/
+     **/
     public double evaluateMove(Board b, int player){
-      if(b.isNetworkComplete(changePlayer(player))){
-        return Double.NEGATIVE_INFINITY;
-      } else if(b.isNetworkComplete(player)){
-        return Double.POSITIVE_INFINITY;
-      }
-    
+        if(b.isNetworkComplete(changePlayer(player))){
+            return Double.NEGATIVE_INFINITY;
+        } else if(b.isNetworkComplete(player)){
+            return Double.POSITIVE_INFINITY;
+        }
+        
     } 
     //what is the point of this method?
     public int changePlayer(int player){
+<<<<<<< HEAD
       return 2 % (1 + player);  
     }
 }
@@ -167,3 +213,8 @@ public class MachinePlayer extends Player {
 
 
 
+=======
+        return 2 % (1 + player);  
+    }
+}
+>>>>>>> fixing errors with github; eric has a backup
