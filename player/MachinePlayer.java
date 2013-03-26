@@ -202,11 +202,14 @@ public class MachinePlayer extends Player {
         }
         
     } 
+<<<<<<< HEAD
     //what is the point of this method?
     public int changePlayer(int player){
 <<<<<<< HEAD
       return 2 % (1 + player);  
     }
+=======
+>>>>>>> Added the .classes; ready for testing after evaluator.java
 }
 
 
