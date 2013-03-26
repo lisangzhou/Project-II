@@ -439,8 +439,3 @@ public class Board {
   }
   
 }
-/*
-
--> private boolean isValidMove(Move something, int player) // checks if the move is legal for player
--> public DList generateAllPossibleMoves(int player); // generates all the possible moves for player. 
-//Returns a DList of Move objects. If there are no possible moves for player, the method returns an empty DList*/
