@@ -153,6 +153,7 @@ public class MachinePlayer extends Player {
     
     
     public double evaluateMove(Board b, int player){
+<<<<<<< HEAD
     	int playerScore = 0;
     	int opponentScore = 0; 
     	if(b.isNetworkComplete(changePlayer(player)))
@@ -188,14 +189,19 @@ public class MachinePlayer extends Player {
     	return playerScore - opponentScore;
     	
     
+=======
+      if(b.isNetworkComplete(changePlayer(player))){
+        return Double.NEGATIVE_INFINITY;
+      } else if(b.isNetworkComplete(player)){
+        return Double.POSITIVE_INFINITY;
+      }
+      return 0;
+>>>>>>> got rid of some syntax errors introduced in the backup
     } 
-<<<<<<< HEAD
     //what is the point of this method?
     public int changePlayer(int player){
       return 2 % (1 + player);  
     }
-=======
->>>>>>> Added the .classes; ready for testing after evaluator.java
 }
 
 
