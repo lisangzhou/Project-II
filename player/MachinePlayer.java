@@ -2,6 +2,7 @@
 package player;
 
 import list.*;
+
 import java.util.Random;
 
 /**
@@ -12,7 +13,7 @@ public class MachinePlayer extends Player {
     
     public static final int DEEP=10;
     protected int color;
-    protected int depth=DEEP;
+    protected int depth;
     protected Board board;
     
     // Creates a machine player with the given color.  Color is either 0 (black)
@@ -34,10 +35,10 @@ public class MachinePlayer extends Player {
     // Returns a new move by "this" player.  Internally records the move (updates
     // the internal game board) as a move by "this" player.
     public Move chooseMove(){
-        Move temp=miniMax(this.color,this.depth);
+        Move temp = miniMax(color, depth, -1, 1).moveGetter();
         // miniMax function doesn't exist right now
         // find the best move
-        moving(temp,this.color);
+        moving(temp, color);
         // after finding the best move, do it and make a change
         
         // return this move
@@ -51,7 +52,10 @@ public class MachinePlayer extends Player {
     // illegal, returns false without modifying the internal state of "this"
     // player.  This method allows your opponents to inform you of their moves.
     public boolean opponentMove(Move m) {
-        return moving(m,colorOpponent());
+    	if (!board.isValidMove(m, colorOpponent()))
+    		return false;
+    	else
+    		return moving(m, colorOpponent());
     }
     
     // If the Move m is legal, records the move as a move by "this" player
@@ -72,7 +76,7 @@ public class MachinePlayer extends Player {
     
     }
 
-    // getting the color of the opponet
+    // getting the color of the opponent
     private int colorOpponent(){
         if(this.color==Board.BLACK){
             return Board.WHITE;
@@ -82,10 +86,56 @@ public class MachinePlayer extends Player {
     }
     
     // miniMax function to be used later
-    private Move miniMax(int color, int depth){
-    
-        // no idea how to find it lol
-    
+    private EvaluatedMove miniMax(int color, int depth, double alpha, double beta){
+    	EvaluatedMove myMove = new EvaluatedMove(); //My best move
+    	EvaluatedMove reply; //Opponent's best reply
+    	
+    	if (evaluateMove(board, color) == Double.NEGATIVE_INFINITY || evaluateMove(board, color) == Double.POSITIVE_INFINITY)
+    		return new EvaluatedMove(evaluateMove(board,color));
+    	
+    	if (color == this.color)
+    	{
+    		myMove.value = alpha;
+    	}
+    	else
+    	{
+    		myMove.value = beta;
+    	}
+    	
+    	DList allMoves = board.generateAllPossibleMoves(color);
+    	try
+    	{
+    	DListNode n = (DListNode) allMoves.front();
+    	while (n.isValidNode())
+    	{
+    		Move m = (Move) n.item();
+    		board.makeMove(m, color);
+    		reply = miniMax(colorOpponent(), depth-1, alpha, beta);
+    		board.undoMove(m, colorOpponent());
+    		
+    		if ((color == this.color) && (reply.value >= myMove.value))
+    		{
+    			myMove.move = m;
+    			myMove.value = reply.value;
+    			alpha = reply.value;
+    		}
+    		else if ((color == colorOpponent()) && (reply.value <= myMove.value))
+    		{
+    			myMove.move = m;
+    			myMove.value = reply.value;
+    			beta = reply.value;
+    		}
+    		if (alpha >= beta)
+    		{
+    			return myMove;
+    		}
+    		n = (DListNode) n.next();
+    	}
+    	}
+    	catch(InvalidNodeException e) 
+    	{
+		}
+    	return myMove;
     }
     
     
@@ -106,8 +156,13 @@ public class MachinePlayer extends Player {
       }
     
     } 
-    
+    //what is the point of this method?
     public int changePlayer(int player){
-      return 2 % (1 + player);
+      return 2 % (1 + player);  
     }
 }
+
+
+
+
+

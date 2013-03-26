@@ -21,7 +21,16 @@ public class EvaluatedMove{
     /**
      * constructor
      **/
-    public EvaluatedMove(Move move,int value){
+    public EvaluatedMove()
+    { 
+    	move = null;
+    }
+    
+    public EvaluatedMove(double value)
+    {
+    	this.value = value;
+    }
+    public EvaluatedMove(Move move,double value){
         this.move=move;
         this.value=value;
     }
