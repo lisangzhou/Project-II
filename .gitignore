@@ -4,3 +4,13 @@
 *.jar
 *.war
 *.ear
+
+player/MachinePlayer.java
+
+*.java
+
+player/Coordinate.java
+
+*.java
+
+player/MachinePlayer.java
