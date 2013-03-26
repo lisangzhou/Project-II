@@ -361,7 +361,7 @@ public class Board {
   *   It returns false otherwise
   * @param coordinate is the Coordinate object which is being tested
   **/
-  private boolean isInGoal(Coordinate coordinate){
+  protected boolean isInGoal(Coordinate coordinate){
     int x = coordinate.getX();
     int y = coordinate.getY();
     return (x==0)||(x==WIDTH-1)||(y==0)||(y==HEIGHT-1);

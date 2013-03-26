@@ -149,12 +149,44 @@ public class MachinePlayer extends Player {
      * @param b is the Board object being evaluated
      * @param player is the player whose turn it is
     **/
+    
+    
+    
     public double evaluateMove(Board b, int player){
-      if(b.isNetworkComplete(changePlayer(player))){
-        return Double.NEGATIVE_INFINITY;
-      } else if(b.isNetworkComplete(player)){
-        return Double.POSITIVE_INFINITY;
-      }
+    	int playerScore = 0;
+    	int opponentScore = 0; 
+    	if(b.isNetworkComplete(changePlayer(player)))
+    	{
+    		return Double.NEGATIVE_INFINITY;
+    	} 
+    	else if(b.isNetworkComplete(player))
+    	{
+    		return Double.POSITIVE_INFINITY;
+    	}
+    	for (int i = 0; i < board.WIDTH; i++)
+    	{
+    		for (int j = 0; j < board.HEIGHT; j++)
+    		{
+    			if (board.getPiece(i, j) == player)
+    			{
+    				playerScore += board.getAllConnections(player, new Coordinate(i,j)).length();
+    			}
+    			else if (board.getPiece(i,j) == colorOpponent())
+    			{
+    				opponentScore += board.getAllConnections(colorOpponent(), new Coordinate(i,j)).length();
+    			}
+    			if (board.getPiece(i,j) == player && board.isInGoal(new Coordinate(i,j)))
+    			{
+    				playerScore += 1;
+    			}
+    			else if  (board.getPiece(i,j) == colorOpponent() && board.isInGoal(new Coordinate(i,j)))
+    			{
+    				opponentScore += 1;
+    			}
+    		}
+    	}
+    	return playerScore - opponentScore;
+    	
     
     } 
 <<<<<<< HEAD
