@@ -23,7 +23,6 @@ public class EvaluatedMove{
      **/
     public EvaluatedMove()
     { 
-    	move = null;
     }
     
     public EvaluatedMove(double value)

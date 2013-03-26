@@ -70,10 +70,13 @@ public class MachinePlayer extends Player {
     
     // private function used by chooseMove, opponentMove, and forceMove
     private boolean moving(Move m, int color){
-    
-    
-        // no idea how to move for now LOL
-    
+    	if (board.isValidMove(m, color))
+    	{
+    		board.makeMove(m, color);
+    		return true;
+    	}
+    	else
+    		return false;    
     }
 
     // getting the color of the opponent
@@ -90,8 +93,9 @@ public class MachinePlayer extends Player {
     	EvaluatedMove myMove = new EvaluatedMove(); //My best move
     	EvaluatedMove reply; //Opponent's best reply
     	
-    	if (evaluateMove(board, color) == Double.NEGATIVE_INFINITY || evaluateMove(board, color) == Double.POSITIVE_INFINITY)
+    	if (evaluateMove(board, color) == Double.NEGATIVE_INFINITY || evaluateMove(board, color) == Double.POSITIVE_INFINITY || depth == 0)
     		return new EvaluatedMove(evaluateMove(board,color));
+
     	
     	if (color == this.color)
     	{
