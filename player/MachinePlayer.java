@@ -218,6 +218,13 @@ public class MachinePlayer extends Player {
         float score = 0;
         float goalScore = .05f;
         int[] pieceInGoal = {0,0,0,0};
+        
+        if(b.isNetworkComplete(colorOpponent())){
+    		return -1;
+    	}else if(b.isNetworkComplete(color)){
+    		return 1;
+    	}
+        
         for(int k = 1; k < Board.WIDTH-1; k++){
               if(b.getSquare(k,0) == Board.BLACK){
                   pieceInGoal[0]++;
