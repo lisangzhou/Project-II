@@ -74,7 +74,6 @@ public class Board {
         }
       }
     else if (m.moveKind == Move.STEP){
-    	System.out.println("Checking here");
         if ((getPiece(m.x2,m.y2) != player) || (player == BLACK && blackpieces < 10) || (player == WHITE && whitepieces < 10)){
           return false;
         }
@@ -142,8 +141,8 @@ public class Board {
       }
       return true;
     } else if (m.moveKind == Move.STEP){
-      board[m.y1][m.x1] = board[m.y2][m.x2];
-      board[m.y2][m.x2] = EMPTY;
+      board[m.y1][m.x1] = EMPTY;
+      board[m.y2][m.x2] = player;
       return true;
     } else{
       return false;

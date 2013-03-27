@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class MachinePlayer extends Player {
     
-    public static final int DEEP=2;
+    public static final int DEEP=4;
     protected int color;
     protected int depth;
     protected Board board;
@@ -35,6 +35,10 @@ public class MachinePlayer extends Player {
     // Returns a new move by "this" player.  Internally records the move (updates
     // the internal game board) as a move by "this" player.
     public Move chooseMove(){
+    	if (board.getAddsRemaining(color) > 0)
+            depth = 4;
+        else
+            depth = 2;
         Move temp = miniMax(color, depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).moveGetter();
         // miniMax function doesn't exist right now
         // find the best move
@@ -87,7 +91,8 @@ public class MachinePlayer extends Player {
     
     // miniMax function to be used later
     private EvaluatedMove miniMax(int color, int depth, double alpha, double beta){
-    
+    	
+    	
     	EvaluatedMove myMove = new EvaluatedMove(); //My best move
     	EvaluatedMove reply; //Opponent's best reply
     	int oppositeColor;
@@ -95,8 +100,8 @@ public class MachinePlayer extends Player {
     		oppositeColor = Board.BLACK;
     	else
     		oppositeColor = Board.WHITE;
-    	if (evaluateMove(board, color) == Double.NEGATIVE_INFINITY || evaluateMove(board, color) == Double.POSITIVE_INFINITY || depth == 0)
-    		return new EvaluatedMove(evaluateMove(board,color));
+    	if (evaluateMove(board) == Double.NEGATIVE_INFINITY || evaluateMove(board) == Double.POSITIVE_INFINITY || depth == 0)
+    		return new EvaluatedMove(evaluateMove(board));
         
     	
     	if (color == this.color)
@@ -154,22 +159,22 @@ public class MachinePlayer extends Player {
      * @param b is the Board object being evaluated
      * @param player is the player whose turn it is
      **/
-    public double evaluateMove(Board b, int player){
+    public double evaluateMove(Board b){
 
     	int playerScore = 0;
     	int opponentScore = 0; 
         
-    	if(b.isNetworkComplete(changePlayer(player))) // change this later; going out for dinner
+    	if(b.isNetworkComplete(colorOpponent())) // change this later; going out for dinner
     	{
     		return Double.NEGATIVE_INFINITY;
     	}
-    	else if(b.isNetworkComplete(player))
+    	else if(b.isNetworkComplete(color))
     	{
     		return Double.POSITIVE_INFINITY;
     	}
-    	for (int i = 0; i < board.WIDTH; i++)
+    	for (int i = 0; i < Board.WIDTH; i++)
     	{
-    		for (int j = 0; j < board.HEIGHT; j++)
+    		for (int j = 0; j < Board.HEIGHT; j++)
     		{
     			if (board.getPiece(i, j) == color)
     			{
