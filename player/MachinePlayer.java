@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class MachinePlayer extends Player {
     
-    public static final int DEEP=10;
+    public static final int DEEP=2;
     protected int color;
     protected int depth;
     protected Board board;
@@ -150,15 +150,10 @@ public class MachinePlayer extends Player {
      * @param player is the player whose turn it is
      **/
     public double evaluateMove(Board b, int player){
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     	int playerScore = 0;
     	int opponentScore = 0; 
-=======
         
-        int playerScore = 0;
-    	int opponentScore = 0;
->>>>>>> adding Network.class
     	if(b.isNetworkComplete(changePlayer(player)))
     	{
     		return Double.NEGATIVE_INFINITY;
@@ -190,18 +185,14 @@ public class MachinePlayer extends Player {
     		}
     	}
     	return playerScore - opponentScore;
-    	
-<<<<<<< HEAD
-    
-=======
+
       if(b.isNetworkComplete(changePlayer(player))){
         return Double.NEGATIVE_INFINITY;
       } else if(b.isNetworkComplete(player)){
         return Double.POSITIVE_INFINITY;
       }
       return 0;
->>>>>>> got rid of some syntax errors introduced in the backup
-=======
+
         
        
         if(b.isNetworkComplete(changePlayer(player))){
@@ -211,20 +202,14 @@ public class MachinePlayer extends Player {
         }
         return 0;
       
->>>>>>> adding Network.class
     } 
-<<<<<<< HEAD
-=======
 
->>>>>>> nothing
+
     //what is the point of this method?
     public int changePlayer(int player){
         return 2 % (1 + player);  
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> nothing
 }
 
 
