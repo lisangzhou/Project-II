@@ -189,8 +189,8 @@ public class MachinePlayer extends Player {
     } 
 
 
-    //what is the point of this method?
-    public int changePlayer(int player){
+    //changing the player; a fast way
+    private int changePlayer(int player){
         return 2 % (1 + player);  
     }
 
