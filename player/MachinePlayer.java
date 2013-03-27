@@ -213,10 +213,18 @@ public class MachinePlayer extends Player {
       
 >>>>>>> adding Network.class
     } 
+<<<<<<< HEAD
+=======
+
+>>>>>>> nothing
     //what is the point of this method?
     public int changePlayer(int player){
         return 2 % (1 + player);  
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> nothing
 }
 
 
