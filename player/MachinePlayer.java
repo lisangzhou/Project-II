@@ -154,7 +154,7 @@ public class MachinePlayer extends Player {
     	int playerScore = 0;
     	int opponentScore = 0; 
         
-    	if(b.isNetworkComplete(changePlayer(player)))
+    	if(b.isNetworkComplete(changePlayer(player))) // change this later; going out for dinner
     	{
     		return Double.NEGATIVE_INFINITY;
     	}
@@ -187,12 +187,6 @@ public class MachinePlayer extends Player {
     	return playerScore - opponentScore;
       
     } 
-
-
-    //changing the player; a fast way
-    private int changePlayer(int player){
-        return 2 % (1 + player);  
-    }
 
 }
 
