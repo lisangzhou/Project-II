@@ -3,9 +3,9 @@ import list.*;
 
 
 public class Board {
-  public static final int EMPTY = 0;
-  public static final int BLACK = 1;
-  public static final int WHITE = 2;
+  public static final int EMPTY = 2;
+  public static final int BLACK = 0;
+  public static final int WHITE = 1;
   public static final int MAXPIECES = 10;
   private int[][] board;
   private int blackpieces, whitepieces;
@@ -16,6 +16,11 @@ public class Board {
     board = new int[HEIGHT][WIDTH];
     blackpieces = 0;
     whitepieces = 0;
+    for (int i = 0; i < HEIGHT; i++)
+    	for (int j = 0; j < WIDTH; j++)
+    	{
+    		board[i][j] = EMPTY;
+    	}
   }
   
   public int getPiece(int x, int y){
@@ -23,6 +28,7 @@ public class Board {
   }
   
   public boolean isValidMove(Move m, int player){
+	  
     if (m == null){
       return false;
     }
@@ -41,23 +47,39 @@ public class Board {
     if (m.x2 == m.x1 && m.y2 == m.y1){
       return false;
     }
-    if (board[m.y1][m.x1] != EMPTY){
+    if (getPiece(m.x1,m.y1) != EMPTY){
       return false;
     }
     if (player == WHITE){
-      for (int i = 1; i < HEIGHT; i++){
-        if ((m.x1 == i && m.y1 == HEIGHT-1) || (m.x1 == i && m.y1 == 0)){
+      if ((m.y1 == HEIGHT-1 || m.y1 == 0)) {
           return false;
         }
       }
-    }
     else{
-      for (int i = 1; i < WIDTH; i++){
-        if ((m.x1 == 0 && m.y1 == i) || (m.x1 == WIDTH-1 && m.y1 == i)){
+        if (m.x1 == 0 || m.x1 == WIDTH-1){
           return false;
         }
       }
-    }
+    
+    if (m.moveKind == Move.ADD){
+        if (player == BLACK){
+          if (blackpieces == 10){
+            return false;
+          }
+        }
+        else {
+          if (whitepieces == 10){
+            return false;
+          }
+        }
+      }
+    else if (m.moveKind == Move.STEP){
+    	System.out.println("Checking here");
+        if ((getPiece(m.x2,m.y2) != player) || (player == BLACK && blackpieces < 10) || (player == WHITE && whitepieces < 10)){
+          return false;
+        }
+      }
+      
     DList n = neighbors(m.x1,m.y1, player);
     if (n.length() > 1){
       return false;
@@ -68,27 +90,11 @@ public class Board {
       try {
         n1 = neighbors(( (Coordinate) n.front().item()).getX(), ((Coordinate) n.front().item()).getY(), player);
       } catch (InvalidNodeException e) {}
-      if (n1.length() > 1){
+      if (n1.length() > 0){
         return false;
       }
     }
-    if (m.moveKind == Move.ADD){
-      if (player == BLACK){
-        if (blackpieces > 10){
-          return false;
-        }
-      }
-      else {
-        if (whitepieces > 10){
-          return false;
-        }
-      }
-    }
-    if (m.moveKind == Move.STEP){
-      if ((getPiece(m.x2,m.y2) != player) || (player == BLACK && blackpieces < 10) || (player == WHITE && whitepieces < 10)){
-        return false;
-      }
-    }
+    
     return true;
   }
   
@@ -99,7 +105,9 @@ public class Board {
          if ((a != 0 || b != 0) && (j+ a >= 0) && (j + a <= HEIGHT-1) && (i + b >= 0) && (i + b <= WIDTH-1))
          {
            if (board[j+a][i+b] == player)
-             neighbors.insertBack(new Coordinate(i,j)); 
+           {
+             neighbors.insertFront(new Coordinate(i+b,j+a));
+           }
          }
        }
      return neighbors;
@@ -115,8 +123,8 @@ public class Board {
     }
     else if (m.moveKind == Move.STEP)
     {
-      board[m.y1][m.x1] = player;
       board[m.y2][m.x2] = EMPTY;
+      board[m.y1][m.x1] = player;
       return true;
     }
     else
@@ -165,7 +173,7 @@ public class Board {
       DList startPositions = new DList();
       for (int i = 0; i < WIDTH; i++){
         for (int j = 0; j < HEIGHT; j++){
-          if (board[j][i] == player){
+          if (getPiece(i,j) == player){
             startPositions.insertBack(new Coordinate(i, j));
           }
         }

@@ -19,7 +19,7 @@ public class MachinePlayer extends Player {
     // Creates a machine player with the given color.  Color is either 0 (black)
     // or 1 (white).  (White has the first move.)
     public MachinePlayer(int color) {
-        this.color=color;
+        this.color=color; 
         this.depth=DEEP;
         board=new Board();
     }
@@ -87,9 +87,14 @@ public class MachinePlayer extends Player {
     
     // miniMax function to be used later
     private EvaluatedMove miniMax(int color, int depth, double alpha, double beta){
+    
     	EvaluatedMove myMove = new EvaluatedMove(); //My best move
     	EvaluatedMove reply; //Opponent's best reply
-    	
+    	int oppositeColor;
+    	if (color == Board.WHITE)
+    		oppositeColor = Board.BLACK;
+    	else
+    		oppositeColor = Board.WHITE;
     	if (evaluateMove(board, color) == Double.NEGATIVE_INFINITY || evaluateMove(board, color) == Double.POSITIVE_INFINITY || depth == 0)
     		return new EvaluatedMove(evaluateMove(board,color));
         
@@ -111,8 +116,8 @@ public class MachinePlayer extends Player {
             {
                 Move m = (Move) n.item();
                 board.makeMove(m, color);
-                reply = miniMax(colorOpponent(), depth-1, alpha, beta);
-                board.undoMove(m, colorOpponent());
+                reply = miniMax(oppositeColor, depth-1, alpha, beta);
+                board.undoMove(m, color);
                 
                 if ((color == this.color) && (reply.value >= myMove.value))
                 {
@@ -166,15 +171,15 @@ public class MachinePlayer extends Player {
     	{
     		for (int j = 0; j < board.HEIGHT; j++)
     		{
-    			if (board.getPiece(i, j) == player)
+    			if (board.getPiece(i, j) == color)
     			{
-    				playerScore += board.getAllConnections(player, new Coordinate(i,j)).length();
+    				playerScore += board.getAllConnections(color, new Coordinate(i,j)).length();
     			}
     			else if (board.getPiece(i,j) == colorOpponent())
     			{
     				opponentScore += board.getAllConnections(colorOpponent(), new Coordinate(i,j)).length();
     			}
-    			if (board.getPiece(i,j) == player && board.isInGoal(new Coordinate(i,j)))
+    			if (board.getPiece(i,j) == color && board.isInGoal(new Coordinate(i,j)))
     			{
     				playerScore += 1;
     			}

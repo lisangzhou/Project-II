@@ -23,11 +23,13 @@ public class EvaluatedMove{
      **/
     public EvaluatedMove()
     { 
+    	move = new Move();
     }
     
     public EvaluatedMove(double value)
     {
     	this.value = value;
+    	move = new Move();
     }
     public EvaluatedMove(Move move,double value){
         this.move=move;
