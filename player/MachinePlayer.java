@@ -201,6 +201,82 @@ public class MachinePlayer extends Player {
 }
 
 
+/* Toby's Eval Function: 
+    /**
+    * evaluateBoard predicts the outcome of the game for the given board, b,
+    * based on the team's devised strategies and returns a floating point number
+    * between -1 and 1 to represent the outcome.  Scores closer to 1 mean "this"
+    * player is more likely to win and scores closer to -1 mean the opponent is
+    * more likely to win.
+    *
+    * @param b the Board object to be evaluated.
+    * @return a floating point number between -1 to 1 of the possible outcome.
+    
+    private float evaluateBoard(Board b, int playerColor){
+        double playerConnections = 0;
+        double oppConnections = 0;
+        float score = 0;
+        float goalScore = .05f;
+        int[] pieceInGoal = {0,0,0,0};
+        for(int k = 1; k < Board.WIDTH-1; k++){
+              if(b.getSquare(k,0) == Board.BLACK){
+                  pieceInGoal[0]++;
+              }
+              if(b.getSquare(k,Board.HEIGHT-1) == Board.BLACK){
+                  pieceInGoal[1]++;
+              }
+              if(b.getSquare(0,k) == Board.WHITE){
+                  pieceInGoal[2]++;
+              }
+              if(b.getSquare(Board.WIDTH-1,k) == Board.WHITE){
+                  pieceInGoal[3]++;
+             }
+        }
+        for(int m = 2; m < 4; m++){
+            if(pieceInGoal[m] == 1){
+                if(playerColor == Board.WHITE){
+                    score += goalScore;
+                }else{
+                    score -= goalScore;
+                }
+            }
+            if(goalPieces[m-2] == 1) {
+                if(playerColor == Board.BLACK){
+                    score += goalScore;
+                }else{
+                    score -= goalScore;
+                }
+            }
+        }
+        for(int j = 0; j < Board.WIDTH; j++){
+            for(int i = 0; i < Board.HEIGHT; i++){
+                if(b.getPiece(i,j) == playerColor){
+                    playerConnections += (b.getAllConnections(playerColor, new Coordinate(i,j))).length();
+                }
+                else if(b.getPiece(i,j) == oppositeColor(playerColor)){
+                    oppConnections += (b.getAllConnections(oppositeColor(playerColor), new Coordinate(i,j))).length();
+                }
+            }
+        }
+        score += (playerConnections-oppConnections)*goalScore/2.0;
+        return score;
+    }
 
 
+     /**
+    * colorOpponent is a helper for getting the color of the other player. 
+    * It returns the color of the opponent
+    
+    private int oppositeColor(int color){
+        if(color==Board.WHITE){
+            return Board.BLACK;
+        }else{
+            return Board.WHITE;
+        }
+    }
 
+
+	
+
+
+*/
