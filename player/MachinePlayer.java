@@ -44,7 +44,7 @@ public class MachinePlayer extends Player {
         // return this move
         return temp;
         
-            
+        
     }
     
     // If the Move m is legal, records the move as a move by the opponent
@@ -52,7 +52,7 @@ public class MachinePlayer extends Player {
     // illegal, returns false without modifying the internal state of "this"
     // player.  This method allows your opponents to inform you of their moves.
     public boolean opponentMove(Move m) {
-    		return moving(m, colorOpponent());
+        return moving(m, colorOpponent());
     }
     
     // If the Move m is legal, records the move as a move by "this" player
@@ -73,9 +73,9 @@ public class MachinePlayer extends Player {
     		return true;
     	}
     	else
-    		return false;    
+    		return false;
     }
-
+    
     // getting the color of the opponent
     private int colorOpponent(){
         if(this.color==Board.BLACK){
@@ -92,7 +92,7 @@ public class MachinePlayer extends Player {
     	
     	if (evaluateMove(board, color) == Double.NEGATIVE_INFINITY || evaluateMove(board, color) == Double.POSITIVE_INFINITY || depth == 0)
     		return new EvaluatedMove(evaluateMove(board,color));
-
+        
     	
     	if (color == this.color)
     	{
@@ -106,34 +106,34 @@ public class MachinePlayer extends Player {
     	DList allMoves = board.generateAllPossibleMoves(color);
     	try
     	{
-    	DListNode n = (DListNode) allMoves.front();
-    	while (n.isValidNode())
-    	{
-    		Move m = (Move) n.item();
-    		board.makeMove(m, color);
-    		reply = miniMax(colorOpponent(), depth-1, alpha, beta);
-    		board.undoMove(m, colorOpponent());
-    		
-    		if ((color == this.color) && (reply.value >= myMove.value))
-    		{
-    			myMove.move = m;
-    			myMove.value = reply.value;
-    			alpha = reply.value;
-    		}
-    		else if ((color == colorOpponent()) && (reply.value <= myMove.value))
-    		{
-    			myMove.move = m;
-    			myMove.value = reply.value;
-    			beta = reply.value;
-    		}
-    		if (alpha >= beta)
-    		{
-    			return myMove;
-    		}
-    		n = (DListNode) n.next();
+            DListNode n = (DListNode) allMoves.front();
+            while (n.isValidNode())
+            {
+                Move m = (Move) n.item();
+                board.makeMove(m, color);
+                reply = miniMax(colorOpponent(), depth-1, alpha, beta);
+                board.undoMove(m, colorOpponent());
+                
+                if ((color == this.color) && (reply.value >= myMove.value))
+                {
+                    myMove.move = m;
+                    myMove.value = reply.value;
+                    alpha = reply.value;
+                }
+                else if ((color == colorOpponent()) && (reply.value <= myMove.value))
+                {
+                    myMove.move = m;
+                    myMove.value = reply.value;
+                    beta = reply.value;
+                }
+                if (alpha >= beta)
+                {
+                    return myMove;
+                }
+                n = (DListNode) n.next();
+            }
     	}
-    	}
-    	catch(InvalidNodeException e) 
+    	catch(InvalidNodeException e)
     	{
 		}
     	return myMove;
@@ -148,18 +148,21 @@ public class MachinePlayer extends Player {
      * player has completed a network.
      * @param b is the Board object being evaluated
      * @param player is the player whose turn it is
-    **/
-    
-    
-    
+     **/
     public double evaluateMove(Board b, int player){
+<<<<<<< HEAD
 <<<<<<< HEAD
     	int playerScore = 0;
     	int opponentScore = 0; 
+=======
+        
+        int playerScore = 0;
+    	int opponentScore = 0;
+>>>>>>> adding Network.class
     	if(b.isNetworkComplete(changePlayer(player)))
     	{
     		return Double.NEGATIVE_INFINITY;
-    	} 
+    	}
     	else if(b.isNetworkComplete(player))
     	{
     		return Double.POSITIVE_INFINITY;
@@ -188,6 +191,7 @@ public class MachinePlayer extends Player {
     	}
     	return playerScore - opponentScore;
     	
+<<<<<<< HEAD
     
 =======
       if(b.isNetworkComplete(changePlayer(player))){
@@ -197,10 +201,21 @@ public class MachinePlayer extends Player {
       }
       return 0;
 >>>>>>> got rid of some syntax errors introduced in the backup
+=======
+        
+       
+        if(b.isNetworkComplete(changePlayer(player))){
+            return Double.NEGATIVE_INFINITY;
+        } else if(b.isNetworkComplete(player)){
+            return Double.POSITIVE_INFINITY;
+        }
+        return 0;
+      
+>>>>>>> adding Network.class
     } 
     //what is the point of this method?
     public int changePlayer(int player){
-      return 2 % (1 + player);  
+        return 2 % (1 + player);  
     }
 }
 
