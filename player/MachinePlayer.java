@@ -185,22 +185,6 @@ public class MachinePlayer extends Player {
     		}
     	}
     	return playerScore - opponentScore;
-
-      if(b.isNetworkComplete(changePlayer(player))){
-        return Double.NEGATIVE_INFINITY;
-      } else if(b.isNetworkComplete(player)){
-        return Double.POSITIVE_INFINITY;
-      }
-      return 0;
-
-        
-       
-        if(b.isNetworkComplete(changePlayer(player))){
-            return Double.NEGATIVE_INFINITY;
-        } else if(b.isNetworkComplete(player)){
-            return Double.POSITIVE_INFINITY;
-        }
-        return 0;
       
     } 
 
