@@ -134,13 +134,13 @@ public class MachinePlayer extends Player {
                      else
                        beta = reply.value;
                 }*/
-                if ((color == this.color) && (reply.value >= myMove.value))
+                if ((color == this.color) && (reply.value > myMove.value))
                 {
                     myMove.move = m;
                     myMove.value = reply.value;
                     alpha = reply.value;
                 }
-                else if ((color == colorOpponent()) && (reply.value <= myMove.value))
+                else if ((color == colorOpponent()) && (reply.value < myMove.value))
                 {
                     myMove.move = m;
                     myMove.value = reply.value;
@@ -213,7 +213,7 @@ public class MachinePlayer extends Player {
     int playerScore = 0;
     int opponentScore = 0; 
       
-    if(b.isNetworkComplete(colorOpponent())) // change this later; going out for dinner
+    if(b.isNetworkComplete(colorOpponent())) 
     {
       return Double.NEGATIVE_INFINITY;
     } else if(b.isNetworkComplete(color))
