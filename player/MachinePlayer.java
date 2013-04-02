@@ -99,9 +99,9 @@ public class MachinePlayer extends Player {
       } else{
         oppositeColor = Board.WHITE;
       }
-      if (evaluateMove(board) == Double.NEGATIVE_INFINITY || evaluateMove(board) == Double.POSITIVE_INFINITY || depth == 0) {
+      if (board.isNetworkComplete(this.color) || board.isNetworkComplete(colorOpponent()) || depth == 0) {
         EvaluatedMove e = new EvaluatedMove();
-        e.value = evaluateMove(board);
+        e.value = evaluateMove(board, depth);
         return e;
       }
         
@@ -140,6 +140,7 @@ public class MachinePlayer extends Player {
                     myMove.value = reply.value;
                     alpha = reply.value;
                 }
+                
                 else if ((color == colorOpponent()) && (reply.value < myMove.value))
                 {
                     myMove.move = m;
@@ -208,17 +209,17 @@ public class MachinePlayer extends Player {
       
     } */
 
-  public double evaluateMove(Board b){
+  public double evaluateMove(Board b, int depth){
 
     int playerScore = 0;
     int opponentScore = 0; 
       
     if(b.isNetworkComplete(colorOpponent())) 
     {
-      return Double.NEGATIVE_INFINITY;
+      return -1000+depth;
     } else if(b.isNetworkComplete(color))
     {
-      return Double.POSITIVE_INFINITY;
+      return 1000-depth;
     }
     for (int i = 0; i < Board.WIDTH; i++)
     {
@@ -242,7 +243,7 @@ public class MachinePlayer extends Player {
         }
       }
     }
-    return playerScore - opponentScore;
+    return (playerScore - opponentScore);
     
   } 
 
