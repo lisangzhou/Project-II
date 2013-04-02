@@ -125,7 +125,7 @@ public class MachinePlayer extends Player {
                 board.makeMove(m, color);
                 reply = miniMax(oppositeColor, depth-1, alpha, beta);
                 board.undoMove(m, color);
-                if (myMove.move == null)
+                /*if (myMove.move == null)
                 {
                    myMove.move = m;
                      myMove.value = reply.value;
@@ -133,7 +133,7 @@ public class MachinePlayer extends Player {
                        alpha = reply.value;
                      else
                        beta = reply.value;
-                }
+                }*/
                 if ((color == this.color) && (reply.value >= myMove.value))
                 {
                     myMove.move = m;
