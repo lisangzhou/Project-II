@@ -86,21 +86,25 @@ public class Board {
         return false;
       }
     }
-      
+    makeMove(m, player);  
     DList n = neighbors(m.x1,m.y1, player);
     if (n.length() > 1){
+      undoMove(m,player);
       return false;
     } else if (n.length() < 1){
+       undoMove(m,player);
       return true;
     } else {
       DList n1 = new DList();
       try {
         n1 = neighbors(( (Coordinate) n.front().item()).getX(), ((Coordinate) n.front().item()).getY(), player);
       } catch (InvalidNodeException e) {}
-      if (n1.length() > 0){
+      if (n1.length() > 1){
+          undoMove(m,player);
         return false;
       }
     }
+    undoMove(m,player);
     
     return true;
   }
