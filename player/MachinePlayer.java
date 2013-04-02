@@ -40,7 +40,6 @@ public class MachinePlayer extends Player {
         else
             depth = 2;
         Move temp = miniMax(color, depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).moveGetter();
-        // miniMax function doesn't exist right now
         // find the best move
         moving(temp, color);
         // after finding the best move, do it and make a change
@@ -100,8 +99,11 @@ public class MachinePlayer extends Player {
     		oppositeColor = Board.BLACK;
     	else
     		oppositeColor = Board.WHITE;
-    	if (evaluateMove(board) == Double.NEGATIVE_INFINITY || evaluateMove(board) == Double.POSITIVE_INFINITY || depth == 0)
-    		return new EvaluatedMove(evaluateMove(board));
+    	if (evaluateMove(board) == Double.NEGATIVE_INFINITY || evaluateMove(board) == Double.POSITIVE_INFINITY || depth == 0) {
+    		EvaluatedMove e = new EvaluatedMove();
+    		e.value = evaluateMove(board);
+    		return e;
+    	}
         
     	
     	if (color == this.color)
@@ -117,7 +119,7 @@ public class MachinePlayer extends Player {
     	try
     	{
             DListNode n = (DListNode) allMoves.front();
-            while (n.isValidNode())
+            for (int i = 0; i < allMoves.length(); i++)
             {
                 Move m = (Move) n.item();
                 board.makeMove(m, color);

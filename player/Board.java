@@ -27,18 +27,28 @@ public class Board {
     return board[y][x];
   }
   
+  private void setPiece(int x, int y, int player)
+  {
+	  board[y][x] = player;
+  }
+  
   public boolean isValidMove(Move m, int player){
 	  
     if (m == null){
       return false;
     }
     if (m.moveKind == Move.QUIT){
-      return true;
+    	if (isNetworkComplete(player)) {
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
     }
     if (player != BLACK && player != WHITE){
       return false;
     }
-    if (m.x1 < 0 || m.x1 > WIDTH-1 || m.y1 < 0 || m.y2 > HEIGHT-1 || m.x2 < 0 || m.x2 > WIDTH-1 || m.y1 < 0 || m.y1 > HEIGHT-1 || m.y2 < 0 || m.y2 >HEIGHT-1){
+    if (m.x1 < 0 || m.x1 > WIDTH-1 || m.y1 < 0 || m.y1 > HEIGHT-1 || m.x2 < 0 || m.x2 > WIDTH-1 || m.y2 < 0 || m.y2 > HEIGHT-1 ){
       return false;
     }
     if ((m.x1 == 0 || m.x1 == WIDTH-1) && (m.y1 == 0 || m.y1 == HEIGHT-1)){
@@ -103,7 +113,7 @@ public class Board {
        for (int b = -1; b <=1; b++){
          if ((a != 0 || b != 0) && (j+ a >= 0) && (j + a <= HEIGHT-1) && (i + b >= 0) && (i + b <= WIDTH-1))
          {
-           if (board[j+a][i+b] == player)
+           if (getPiece(i+b, j+a) == player)
            {
              neighbors.insertFront(new Coordinate(i+b,j+a));
            }
@@ -113,7 +123,7 @@ public class Board {
     }
   public boolean makeMove (Move m, int player){
     if (m.moveKind == Move.ADD){
-      board[m.y1][m.x1] = player;
+      setPiece(m.x1,m.y1,player);
       if (player == BLACK)
         blackpieces++;
       else
@@ -122,8 +132,8 @@ public class Board {
     }
     else if (m.moveKind == Move.STEP)
     {
-      board[m.y2][m.x2] = EMPTY;
-      board[m.y1][m.x1] = player;
+      setPiece(m.x2,m.y2, EMPTY);
+      setPiece(m.x1,m.y1,player);
       return true;
     }
     else
@@ -132,7 +142,7 @@ public class Board {
   
   public boolean undoMove (Move m, int player){
     if (m.moveKind == Move.ADD){
-      board[m.y1][m.x1] = EMPTY;
+      setPiece(m.x1,m.y1,EMPTY);
       if (player == BLACK){
         blackpieces--;
       }
@@ -141,9 +151,9 @@ public class Board {
       }
       return true;
     } else if (m.moveKind == Move.STEP){
-      board[m.y1][m.x1] = EMPTY;
-      board[m.y2][m.x2] = player;
-      return true;
+        setPiece(m.x1,m.y1,EMPTY);
+        setPiece(m.x2,m.y2,player);
+        return true;
     } else{
       return false;
     }
@@ -376,7 +386,7 @@ public class Board {
 
   public static void main(String args[]){
     Board testBoard = new Board();
-    testBoard.printBoard();
+    //testBoard.printBoard();
 
     /*
 
@@ -413,8 +423,12 @@ public class Board {
     //testBoard.addPiece(BLACK,6,5);
     testBoard.addPiece(BLACK,2,7);
     //testBoard.addPiece(BLACK,5,7);
+    //testBoard.printBoard();
+    //System.out.println("Valid network formed " + testBoard.isNetworkComplete(BLACK));
+   // System.out.println(testBoard.isValidMove(new Move(4,6), BLACK));
     testBoard.printBoard();
-    System.out.println("Valid network formed " + testBoard.isNetworkComplete(BLACK));
+    System.out.println(testBoard.generateAllPossibleMoves(BLACK));
+
   }
 
   private void addPiece(int player, int x, int y){

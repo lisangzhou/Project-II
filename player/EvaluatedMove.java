@@ -21,9 +21,9 @@ public class EvaluatedMove{
     /**
      * constructor
      **/
-    public EvaluatedMove()
+  /*  public EvaluatedMove()
     { 
-    	move = new Move();
+    	
     }
     
     public EvaluatedMove(double value)
@@ -34,7 +34,7 @@ public class EvaluatedMove{
     public EvaluatedMove(Move move,double value){
         this.move=move;
         this.value=value;
-    }
+    }*/
     
     /**
      * return move
