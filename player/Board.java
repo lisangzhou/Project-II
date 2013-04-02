@@ -17,10 +17,10 @@ public class Board {
     blackpieces = 0;
     whitepieces = 0;
     for (int i = 0; i < HEIGHT; i++)
-    	for (int j = 0; j < WIDTH; j++)
-    	{
-    		board[i][j] = EMPTY;
-    	}
+      for (int j = 0; j < WIDTH; j++)
+      {
+        board[i][j] = EMPTY;
+      }
   }
   
   public int getPiece(int x, int y){
@@ -29,21 +29,21 @@ public class Board {
   
   private void setPiece(int x, int y, int player)
   {
-	  board[y][x] = player;
+    board[y][x] = player;
   }
   
   public boolean isValidMove(Move m, int player){
-	  
+    
     if (m == null){
       return false;
     }
     if (m.moveKind == Move.QUIT){
-    	if (isNetworkComplete(player)) {
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
+      if (isNetworkComplete(player)) {
+        return true;
+      }
+      else{
+        return false;
+      }
     }
     if (player != BLACK && player != WHITE){
       return false;
@@ -54,40 +54,38 @@ public class Board {
     if ((m.x1 == 0 || m.x1 == WIDTH-1) && (m.y1 == 0 || m.y1 == HEIGHT-1)){
       return false;
     }
-    if (m.x2 == m.x1 && m.y2 == m.y1){
-      return false;
-    }
     if (getPiece(m.x1,m.y1) != EMPTY){
       return false;
     }
-    if (player == WHITE){
-      if ((m.y1 == HEIGHT-1 || m.y1 == 0)) {
-          return false;
-        }
-      }
-    else{
-        if (m.x1 == 0 || m.x1 == WIDTH-1){
-          return false;
-        }
-      }
-    
+    if (player == WHITE && (m.y1 == HEIGHT-1 || m.y1 == 0)){
+      return false;   
+    } else if(player == BLACK && (m.x1 == 0 || m.x1 == WIDTH-1)){
+      return false;
+    }
     if (m.moveKind == Move.ADD){
-        if (player == BLACK){
-          if (blackpieces == 10){
-            return false;
-          }
-        }
-        else {
-          if (whitepieces == 10){
-            return false;
-          }
-        }
-      }
-    else if (m.moveKind == Move.STEP){
-        if ((getPiece(m.x2,m.y2) != player) || (player == BLACK && blackpieces < 10) || (player == WHITE && whitepieces < 10)){
+      if (player == BLACK){
+        if (blackpieces > 10){
           return false;
         }
       }
+      else if(player == WHITE) {
+        if (whitepieces > 10){
+          return false;
+        }
+      }
+    } else if (m.moveKind == Move.STEP){
+      if ((getPiece(m.x2,m.y2) != player) || (player == BLACK && blackpieces < 10) || (player == WHITE && whitepieces < 10)){
+        return false;
+      }
+      if (m.x2 == m.x1 && m.y2 == m.y1){
+        return false;
+      }
+      if(player == BLACK && (m.x2 == 0 || m.x2 == WIDTH-1)){
+        return false;
+      } else if(player == WHITE && (m.y2 == HEIGHT-1 || m.y2 == 0)){
+        return false;
+      }
+    }
       
     DList n = neighbors(m.x1,m.y1, player);
     if (n.length() > 1){
@@ -124,20 +122,19 @@ public class Board {
   public boolean makeMove (Move m, int player){
     if (m.moveKind == Move.ADD){
       setPiece(m.x1,m.y1,player);
-      if (player == BLACK)
+      if (player == BLACK){
         blackpieces++;
-      else
+      } else{
         whitepieces++;
+      }
       return true;
-    }
-    else if (m.moveKind == Move.STEP)
-    {
+    } else if (m.moveKind == Move.STEP){
       setPiece(m.x2,m.y2, EMPTY);
       setPiece(m.x1,m.y1,player);
       return true;
-    }
-    else
+    } else{
       return false;
+    }
   }
   
   public boolean undoMove (Move m, int player){
@@ -309,10 +306,6 @@ public class Board {
     exploration[currCoord.getY()][currCoord.getX()] = explored;
     // get all of the pieces linked to the current piece, recurse through them
     DList allConnections = getAllConnections(player,currCoord);
-    // System.out.println(allConnections);
-    // System.out.println("The current explored state is ");
-    // printArray(exploration);
-    // System.out.println();
     boolean validNetworkFormed = false;
     while(allConnections.length() > 0 && !validNetworkFormed){
       try{
@@ -357,7 +350,7 @@ public class Board {
   * @param origin is a Coordinate object representing the second (x,y) coordinate 
   * @param destination is a Coordinate object representing the second (x,y) coordinate
   **/
-  private boolean inBothGoals(Coordinate origin, Coordinate destination){
+  public boolean inBothGoals(Coordinate origin, Coordinate destination){
     if(isInGoal(origin) && isInGoal(destination)){    
       if(origin.getX() == 0){
         return destination.getX() == WIDTH - 1;
@@ -412,6 +405,7 @@ public class Board {
     System.out.println("Valid network formed: " + testBoard.isNetworkComplete(BLACK));
 
     */
+    /*
     //testBoard.addPiece(BLACK,2,0);
     testBoard.addPiece(BLACK,6,0);
     testBoard.addPiece(BLACK,4,2);
@@ -428,6 +422,11 @@ public class Board {
    // System.out.println(testBoard.isValidMove(new Move(4,6), BLACK));
     testBoard.printBoard();
     System.out.println(testBoard.generateAllPossibleMoves(BLACK));
+    */
+
+    Move testMove = new Move(1,1);
+    System.out.println(testMove.x1 + " " + testMove.y1);
+    System.out.println(testMove.x2 + " " + testMove.y2);
 
   }
 
