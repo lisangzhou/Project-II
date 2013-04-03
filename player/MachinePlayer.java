@@ -33,7 +33,7 @@ public class MachinePlayer extends Player {
 	// Returns a new move by "this" player. Internally records the move (updates
 	// the internal game board) as a move by "this" player.
 	public Move chooseMove() {
-		Move playerMove = miniMax(color, depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).moveGetter();
+		Move playerMove = miniMax(color, depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).getMove();
 		moving(playerMove, color);
 		return playerMove;
 	}
@@ -88,14 +88,14 @@ public class MachinePlayer extends Player {
 		
 		if (board.isNetworkComplete(this.color) || board.isNetworkComplete(colorOpponent()) || depth == 0) {
 			EvaluatedMove eval = new EvaluatedMove();
-			eval.value = evaluateMove(board, depth);
+			eval.setValue(evaluateMove(board, depth));
 			return eval;
 		}
 
 		if (color == this.color) {
-			myMove.value = alpha;
+			myMove.setValue(alpha);
 		} else {
-			myMove.value = beta;
+			myMove.setValue(beta);
 		}
 
 		DList allMoves = board.generateAllPossibleMoves(color);
@@ -107,14 +107,14 @@ public class MachinePlayer extends Player {
 				reply = miniMax(oppositeColor, depth - 1, alpha, beta);
 				board.undoMove(move, color);
 				
-				if ((color == this.color) && (reply.value > myMove.value)) {
-					myMove.move = move;
-					myMove.value = reply.value;
-					alpha = reply.value;
-				} else if ((color == colorOpponent()) && (reply.value < myMove.value)) {
-					myMove.move = move;
-					myMove.value = reply.value;
-					beta = reply.value;
+				if ((color == this.color) && (reply.getValue() > myMove.getValue())) {
+					myMove.setMove(move);
+					myMove.setValue(reply.getValue());
+					alpha = reply.getValue();
+				} else if ((color == colorOpponent()) && (reply.getValue() < myMove.getValue())) {
+					myMove.setMove(move);
+					myMove.setValue(reply.getValue());
+					beta = reply.getValue();
 				}
 				
 				if (alpha >= beta) {
@@ -138,7 +138,7 @@ public class MachinePlayer extends Player {
 	 *          is the player whose turn it is
 	 **/
 
-	public double evaluateMove(Board b, int depth) {
+	private double evaluateMove(Board b, int depth) {
 
 		int playerScore = 0;
 		int opponentScore = 0;

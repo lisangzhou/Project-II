@@ -20,15 +20,23 @@ public class EvaluatedMove {
 	/**
 	 * return move
 	 **/
-	public Move moveGetter() {
+	public Move getMove() {
 		return move;
 	}
 
 	/**
 	 * return value
 	 **/
-	public double valueGetter() {
+	public double getValue() {
 		return value;
+	}
+	
+	protected void setMove(Move m) {
+		move = m;
+	}
+	
+	protected void setValue(double v) {
+		value = v;
 	}
 
 }

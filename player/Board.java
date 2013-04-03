@@ -123,7 +123,7 @@ public class Board {
 		return neighbors;
 	}
 
-	public boolean makeMove(Move m, int player) {
+	protected boolean makeMove(Move m, int player) {
 		if (m.moveKind == Move.ADD) {
 			setPiece(m.x1, m.y1, player);
 			if (player == BLACK) {
@@ -141,7 +141,7 @@ public class Board {
 		}
 	}
 
-	public boolean undoMove(Move m, int player) {
+	protected boolean undoMove(Move m, int player) {
 		if (m.moveKind == Move.ADD) {
 			setPiece(m.x1, m.y1, EMPTY);
 			if (player == BLACK) {
@@ -159,7 +159,7 @@ public class Board {
 		}
 	}
 
-	public int getAddsRemaining(int player) {
+	private int getAddsRemaining(int player) {
 		if (player == BLACK) {
 			return 10 - blackPieces;
 		} else {
@@ -167,7 +167,7 @@ public class Board {
 		}
 	}
 
-	public DList generateAllPossibleMoves(int player) {
+	protected DList generateAllPossibleMoves(int player) {
 		DList allMoves = new DList();
 		if (getAddsRemaining(player) > 0) {
 			for (int i = 0; i < WIDTH; i++) {
@@ -201,7 +201,7 @@ public class Board {
 		return allMoves;
 	}
 
-	public DList getAllConnections(int player, Coordinate c) {
+	protected DList getAllConnections(int player, Coordinate c) {
 		DList connections = new DList();
 		for (int i = 0; i < 8; i++) {
 			Coordinate neighbor = incrementDirection(i, c);
