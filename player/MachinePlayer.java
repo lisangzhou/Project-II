@@ -35,19 +35,10 @@ public class MachinePlayer extends Player {
     // Returns a new move by "this" player.  Internally records the move (updates
     // the internal game board) as a move by "this" player.
     public Move chooseMove(){
-      if (board.getAddsRemaining(color) > 0)
-            depth = 4;
-        else
-            depth = 2;
-        Move temp = miniMax(color, depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).moveGetter();
-        // find the best move
-        moving(temp, color);
-        // after finding the best move, do it and make a change
-        
-        // return this move
-        return temp;
-        
-        
+
+      Move temp = miniMax(color, depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).moveGetter();
+      moving(temp,color);
+      return temp;
     }
     
     // If the Move m is legal, records the move as a move by the opponent
