@@ -116,6 +116,7 @@ public class MachinePlayer extends Player {
                 board.makeMove(m, color);
                 reply = miniMax(oppositeColor, depth-1, alpha, beta);
                 board.undoMove(m, color);
+		
                 /*if (myMove.move == null)
                 {
                    myMove.move = m;
@@ -235,8 +236,6 @@ public class MachinePlayer extends Player {
       }
     }
     return (playerScore - opponentScore);
-    
   } 
-
 }
 
