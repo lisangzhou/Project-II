@@ -207,10 +207,10 @@ public class MachinePlayer extends Player {
       
     if(b.isNetworkComplete(colorOpponent())) 
     {
-      return -1000+depth;
+      return -1000-depth;
     } else if(b.isNetworkComplete(color))
     {
-      return 1000-depth;
+      return 1000+depth;
     }
     for (int i = 0; i < Board.WIDTH; i++)
     {
