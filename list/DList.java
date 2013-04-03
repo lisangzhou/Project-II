@@ -58,9 +58,9 @@ public class DList extends List {
   public DList() {
     // Your solution here.  Similar to Homework 4, but now you need to specify
     //   the `list' field (second parameter) as well.
-	 head=this.newNode(null,null,null,null);
-	 head.next=head;
-	 head.prev=head;
+  	head=this.newNode(null,null,null,null);
+  	head.next=head;
+  	head.prev=head;
 	  size=0;
   }
 
@@ -76,8 +76,7 @@ public class DList extends List {
     //   the `list' field (second parameter) as well.
 	  if(this.isEmpty()){
 		  head.next=newNode(item,this,head,head);
-		  head.prev=head.next;
-		 
+		  head.prev=head.next; 
 	  }else{
 		  head.next=newNode(item,this,head,head.next);
 		  head.next.next.prev=head.next;
