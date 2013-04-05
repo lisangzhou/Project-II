@@ -89,56 +89,66 @@ public class MachinePlayer extends Player {
      *  @param beta:  the opponent can achieve a score of beta or lower.
      *  @return an EvaluatedMove object that contains the move and value of the best possible move.
      **/
-    private EvaluatedMove miniMax(int color, int depth, double alpha, double beta) {
-
-        EvaluatedMove myMove = new EvaluatedMove(); 
-        EvaluatedMove reply; 
-        int oppositeColor;
-        if (color == Board.WHITE) {
-            oppositeColor = Board.BLACK;
-        } else {
-            oppositeColor = Board.WHITE;
-        }
+    private EvaluatedMove miniMax(int color, int depth, double alpha, double beta){
+	 
+      EvaluatedMove myMove = new EvaluatedMove(); 
+      EvaluatedMove reply; 
+      int oppositeColor;
+      if (color == Board.WHITE){
+        oppositeColor = Board.BLACK;
+      } else{
+        oppositeColor = Board.WHITE;
+      }
+      
+      if (board.isNetworkComplete(this.color) || board.isNetworkComplete(colorOpponent()) || depth == 0) {
+        EvaluatedMove e = new EvaluatedMove();
+        e.value = evaluateMove(board, depth);
+        return e;
+      }
         
-        if (board.isNetworkComplete(this.color) || board.isNetworkComplete(colorOpponent()) || depth == 0) {
-            EvaluatedMove eval = new EvaluatedMove();
-            eval.setValue(evaluateMove(board, depth));
-            return eval;
-        }
-
-        if (color == this.color) {
-            myMove.setValue(alpha);
-        } else {
-            myMove.setValue(beta);
-        }
-
-        DList allMoves = board.generateAllPossibleMoves(color);
-        try {
+      if (color == this.color)
+      {
+        myMove.value = alpha;
+      }
+      else
+      {
+        myMove.value = beta;
+      }
+      
+      DList allMoves = board.generateAllPossibleMoves(color);
+      try {
             DListNode n = (DListNode) allMoves.front();
-            for (int i = 0; i < allMoves.length(); i++) {
-                Move move = (Move) n.item();
-                board.makeMove(move, color);
-                reply = miniMax(oppositeColor, depth - 1, alpha, beta);
-                board.undoMove(move, color);
-                
-                if ((color == this.color) && (reply.getValue() > myMove.getValue())) {
-                    myMove.setMove(move);
-                    myMove.setValue(reply.getValue());
-                    alpha = reply.getValue();
-                } else if ((color == colorOpponent()) && (reply.getValue() < myMove.getValue())) {
-                    myMove.setMove(move);
-                    myMove.setValue(reply.getValue());
-                    beta = reply.getValue();
+            for (int i = 0; i < allMoves.length(); i++)
+            {
+                Move m = (Move) n.item();
+                board.makeMove(m, color);
+                reply = miniMax(oppositeColor, depth-1, alpha, beta);
+                board.undoMove(m, color);
+
+                if ((color == this.color) && (reply.value > myMove.value))
+                {
+                    myMove.move = m;
+                    myMove.value = reply.value;
+                    alpha = reply.value;
                 }
                 
-                if (alpha >= beta) {
+                else if ((color == colorOpponent()) && (reply.value < myMove.value))
+                {
+                    myMove.move = m;
+                    myMove.value = reply.value;
+                    beta = reply.value;
+                }
+                if (alpha >= beta)
+                {
                     return myMove;
                 }
                 n = (DListNode) n.next();
             }
-        } catch (InvalidNodeException e) {}
-        return myMove;
+      }
+      catch(InvalidNodeException e) {}
+      return myMove;
     }
+    
 
     /**
      * evaluateMove(Board b, int depth), evaluates a board, assigning a score to it. It assigns a maximum
