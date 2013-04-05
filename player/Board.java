@@ -122,7 +122,7 @@ public class Board {
         } else {
             DList neighborsOfNeighbor = new DList();
             try {
-                neighborsOfNeighbor = neighbors(((Coordinate) neighbors.front().item()).getX(), ((Coordinate) neighborsOfNeighbor.front().item()).getY(), player);
+                neighborsOfNeighbor = neighbors(((Coordinate) neighbors.front().item()).getX(), ((Coordinate) neighbors.front().item()).getY(), player);
             } catch (InvalidNodeException e) {}
             if (neighborsOfNeighbor.length() > 1) {
                 undoMove(m, player);
