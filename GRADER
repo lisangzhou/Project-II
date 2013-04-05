@@ -74,13 +74,13 @@ grade.
 
 
 /* classes */
-* MachinePlayer
-* Board
+* MachinePlayer - Class to represent the machine player. The minimax algorithm and evaluation function are implemented in this class
+* Board - A class to hold the game board data. This class implements all of the rules for Network and also checks if there is a fully formed network on the board.
 * DList
 * DListNode
 * InvalidNodeException
-* Coordinate
-* EvaluatedMove
+* Coordinate - An class representing positions on the board
+* EvaluatedMove - A class containing a possible Move, and the value of the Move as evaluated by the evaluation function
 * Move
 * Player
 
@@ -193,7 +193,7 @@ grade.
 
 
 
-   ## NAME: miniMax                                   
+   ## NAME: miniMax                                  
    ## IMPLEMENTATED BY:  Mukund Chillakanti ; Lisang Zhou
    ## IMPLEMENTATED IN: MachinePlayer
    ## DESCRIPTION: miniMax finds best move on the game tree. Uses Alpha Beta Pruning.
@@ -205,154 +205,6 @@ grade.
      *  @param beta:  the opponent can achieve a score of beta or lower.
      *  @return an EvaluatedMove object that contains the move and value of the best possible move.
      **/
-    private EvaluatedMove miniMax(int color, int depth, double alpha, double beta) 
+    private EvaluatedMove miniMax(int color, int depth, double alpha, double beta)
 
-
-
-
-    ****** These are not in a module but are public interfaces ; just ignore them or put them in a new one? ********
-    #### DList
-     public DList();
-     /**
-     * This constructor will create a new empty DList.  
-     */
-
-     public boolean isEmpty();
-     /**
-     * isEmpty() will return true if "this" DList is empty and false otherwise.
-     *
-     * @return true if "this" DList is empty, false if otherwise.
-     */
-
-     public int length();
-     /**
-     * length() will return an integer with the number of elements in "this" DList
-     *
-     * @return an int of how many elements are in "this" DList.
-     */
-
-     public void insertFront(Object item);
-     /**
-     * insertFront will insert a new DListNode containing "item" in the front of
-     * "this" DList.
-     *
-     * @param item the Object to be inserted at the front of "this" DList.
-     */
-
-     public void insertBack(Object item);
-     /**
-     * insertBack will insert a new DListNode containing "item" at the end of 
-     * "this" DList.
-     *
-     * @param item the Object to be inserted at the end of "this" DList.
-     */
-
-     public DListNode front();
-     /**
-     * front() returns the DListNode at the front of of "this" DList.  If "this"
-     * DList is empty, return an invalid node.
-     *
-     * @return the DListNode at the front of "this" DList.
-     */
-
-     public DListNode back();
-     /**
-     * back() returns the DListNode at the back of "this" DList.  If "this" DList
-     * is empty, return an invalid node.
-     *
-     * @return the DListNode at the front of "this" DList.
-     */
-     
-     public String toString();
-     /**
-     * toStrong() returns the String representation of "this" DList for debugging.
-     *
-     * @return the String representation of "this" DList.
-     */
-
-    #### DListNode
-     protected DListNode(Object i, DList l, DListNode p, DListNode n);
-     /** 
-     * This creates a new DListNode.
-     * @param i the Object to be contained in the node.
-     * @param l the DList that "this" node is a part of.
-     * @param p the preceding DListNode.
-     * @param n the next DListNode.
-     */
-
-     public boolean isValidNode():
-     /**
-     * isValidNode() returns true if "this" node is valid and false if otherwise.
-     *
-     * @return true if "this" node is valid, false if otherwise.
-     */
-
-     public Object item() throws InvalidNodeException;
-     /**
-     * item() returns the item for "this" node.  If the node is invalid, it throws
-     * an exception.
-     *
-     * @return the Object contained in "this" node.
-     * @exception InvalidNodeException if the node isn't valid.
-     */
-
-     public void setItem(Object item) throws InvalidNodeException;
-     /**
-     * setItem sets "this" node's item to "item".  If "this" node is invalid,
-     * it throws an exception.
-     * 
-     * @param item the Object to be stored in "this" node.
-     * @exception InvalidNodeException if the node isn't valid.
-     */
-     
-     public DListNode next() throws InvalidNodeException;
-     /** 
-     * next() returns the DListNode after "this" node.  If the node is invalid,
-     * it throws an exception.
-     *
-     * @return the DListNode after "this" node.
-     * @exception InvalidNodeException if "this" node is invalid.
-     */
-     
-     public DListNode prev() throws InvalidNodeException;
-     /**
-     * prev() returns the DListNode before "this" node.  If the node is invalid, 
-     * it throws an exception.
-     *
-     * @return the DListNode before "this" node.
-     * @exception InvalidNodeException if "this" node is invalid.
-     */
-
-     public void insertAfter(Object item) throws InvalidNodeException;
-     /**
-     * insertAfter inserts a new DListNode containing "item" after "this" node.
-     * If the node is invalid, it throws an exception.
-     *
-     * @param item the Object to be inserted in the new node.
-     * @exception InvalidNodeException if "this" node is invalid.
-     */
-
-     public void insertBefore(Object item) throws InvalidNodeException;
-     /** 
-     * insertBefore inserts a new DListNode containing "item" before "this" node.
-     * If the node is invalid, it throws an exception.
-     *
-     * @param item the Object to be inserted in the new node.
-     * @exception InvalidNodeException if "this" node is invalid.
-     */
-
-     public void remove() throws InvalidNodeException;
-     /**
-     * remove() removes "this" node from it's DList.  If the node is invalid, an
-     * exception is thrown.
-     *
-     * @exception InvalidNodeException if "this" node is invalid.
-     */
-    
-    #### InvalidNodeException
-     protected InvalidNodeException();
-     /**
-     * This creates a new exception that signals when a program attempts to use an
-     * invalid node.
-     */
 
