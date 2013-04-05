@@ -12,6 +12,10 @@ public class Board {
 	public static final int HEIGHT = 8;
 	public static final int WIDTH = 8;
 
+	/**
+	 *  Board() constructor
+	 *  Creates a two dimensional array with dimensions HEIGHT and WIDTH and sets each piece to EMPTY
+	 */
 	public Board() {
 		board = new int[HEIGHT][WIDTH];
 		blackPieces = 0;
@@ -22,15 +26,35 @@ public class Board {
 			}
 		}
 	}
-
+	
+	/**
+   *  getPiece(int x, int y) returns the piece in the specified location on the board. 
+   *
+   *  @param x is the x coordinate of the location.
+   *  @param y is the y coordinate of the location.
+   *  @return the piece in the specified location (BLACK, WHITE, or EMPTY).
+   */
 	public int getPiece(int x, int y) {
 		return board[y][x];
 	}
 
+	/**
+   *  setPiece(int x, int y) sets the piece in the specified location on the board. 
+   *
+   *  @param x is the x coordinate of the location.
+   *  @param y is the y coordinate of the location.
+   */
 	private void setPiece(int x, int y, int player) {
 		board[y][x] = player;
 	}
 
+	/**
+   *  isValidMove(Move m, int player) determines whether the Move m is a valid move for the player to make. 
+   *
+   *  @param m is the move that the player wants to make.
+   *  @param player is the player who wants to make the move.
+   *  @return true is the move the player wants to make is valid. false otherwise.
+   */
 	public boolean isValidMove(Move m, int player) {
 		
 		if (m == null) {
@@ -108,7 +132,15 @@ public class Board {
 		undoMove(m, player);
 		return true;
 	}
-
+	
+	/**
+   *  neighbors(int i, int j, int player) returns a DList of all the neighboring pieces of the same type as the piece in the coordinate represented by (i,j). 
+   *
+   *  @param i is the x coordinate of the location of which neighbors are being found.
+   *  @param j is the y coordinate of the location of which neighbors are being found.
+   *  @param player is the player whose piece is in the location (BLACK or WHITE)
+   *  @return a DList of all neighbors of the same type to the piece in coordinate represented by (i,j).
+   */
 	private DList neighbors(int i, int j, int player) {
 		DList neighbors = new DList();
 		for (int a = -1; a <= 1; a++) {
@@ -123,6 +155,14 @@ public class Board {
 		return neighbors;
 	}
 
+	/**
+   *  makeMove(Move m, int player) makes a move for the specified player by updating the board. This move can either be an Add move or a Step Move. 
+   *  It also increments either the number of whitePieces or blackPieces if an Add move is being made. This method does not check for the legality of the move.
+   *
+   *  @param m is the Move being made.
+   *  @param player is the player whose piece is being moved (BLACK or WHITE).
+   *  @return true if a move is successfully made. false if not (i.e. m.moveKind is neither an add move nor a step move).
+   */
 	protected boolean makeMove(Move m, int player) {
 		if (m.moveKind == Move.ADD) {
 			setPiece(m.x1, m.y1, player);
@@ -140,7 +180,15 @@ public class Board {
 			return false;
 		}
 	}
-
+	
+	/**
+   *  undoMove (Move m, int player) undoes a move by reversing a move and updating the board. This move can either be an Add move or a Step Move.
+   *  It also decrements either the number of whitePieces or blackPieces if an Add move is being undone. This method does not check for the legality of the move.
+   *  
+   *  @param m is the move that the player wants to undo.
+   *  @param player is the player whose move is being undone (BLACK or WHITE).
+   *  @return true if a move is successfully undone. false otherwise.
+   */
 	protected boolean undoMove(Move m, int player) {
 		if (m.moveKind == Move.ADD) {
 			setPiece(m.x1, m.y1, EMPTY);
@@ -158,7 +206,13 @@ public class Board {
 			return false;
 		}
 	}
-
+	
+	/**
+   *  getAddsRemaining(int player) returns the number of add moves the the player has remaining.
+   *  
+   *  @param player is the player requesting the number of add moves remaining (BLACK or WHITE).
+   *  @return the number of add moves remaining for the player.
+   */
 	private int getAddsRemaining(int player) {
 		if (player == BLACK) {
 			return 10 - blackPieces;
@@ -166,7 +220,14 @@ public class Board {
 			return 10 - whitePieces;
 		}
 	}
-
+	
+	/**
+   *  generateAllPossibleMoves(int player) generates a DList of all the possible moves that the player can make on the current board. 
+   *  If the number of add moves the player has remaining is greater than 0, add moves will be added to the DList. Otherwise, step moves will be added.
+   *  
+   *  @param player is the player (BLACK or WHITE) whose possible moves are being found.
+   *  @return DList of all the valid moves the the player can make.
+   */
 	protected DList generateAllPossibleMoves(int player) {
 		DList allMoves = new DList();
 		if (getAddsRemaining(player) > 0) {
@@ -200,7 +261,15 @@ public class Board {
 		}
 		return allMoves;
 	}
-
+	
+	/**
+   *  getAllConnections(int player, Coordinate c) generates a DList containing all the coordinates that have pieces connected to the piece in Coordinate c.
+   *  
+   *  @param c is a Coordinate of the piece whose connections are being found
+   *  @param player is the player (BLACK or WHITE) whose connections are being found.
+   *  @return DList of all the coordinates that form connections with the given coordinate and player.
+   */
+	
 	protected DList getAllConnections(int player, Coordinate c) {
 		DList connections = new DList();
 		for (int i = 0; i < 8; i++) {
@@ -218,6 +287,16 @@ public class Board {
 		}
 		return connections;
 	}
+	
+	/**
+   *  incrementDirection(int direction, Coordinate c) is a helper method for getAllConnections that takes in a Coordinate and changes it into a neighboring 
+   *  coordinate based on the direction parameter passed into the method. 
+   *  
+   *  @param direction is the direction in which the neighboring coordinate should be determined. It can have a value between 0 and 7, with each number 
+   *  representing one of the 8 directions in which a neighboring coordinate can be found.
+   *  @param c is a Coordinate of the piece for which a neighboring coordinate is being found.
+   *  @return a Coordinate object of a neighboring coordinate, based on the value of direction.
+   */
 
 	private Coordinate incrementDirection(int direction, Coordinate c) {
 		int neighborX = Integer.MAX_VALUE, neighborY = Integer.MAX_VALUE;

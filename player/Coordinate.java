@@ -24,7 +24,7 @@ public class Coordinate{
   }
   /**
   *  getX() is a getter for the x instance variable. 
-  *  return the x coordinate of a Coordinate object
+  *  returns the x coordinate of a Coordinate object
   **/
   public int getX(){
     return this.x;
@@ -32,7 +32,7 @@ public class Coordinate{
 
   /**
   *  getY() is a getter for the y instance variable. 
-  *  return the y coordinate of a Coordinate object
+  *  returns the y coordinate of a Coordinate object
   **/
   public int getY(){
     return this.y;
