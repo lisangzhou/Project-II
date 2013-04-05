@@ -152,7 +152,7 @@ grade.
 
 
    ## NAME: all connections                                     
-   ## IMPLEMENTATED BY: Eric Wu  
+   ## IMPLEMENTATED BY: Mukund Chillakanti  
    ## IMPLEMENTATED IN: Board
    ## DESCRIPTION: Generate a DList that contains all coordinates which connect to c.  
    ## INTERFACE:   
