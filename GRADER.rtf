@@ -1,13 +1,13 @@
                                      GRADER
 
-Name of student running submit:
-Login of student running submit:
+Name of student running submit: Mukund Chillakanti
+Login of student running submit: CS61b-vs
 
-Second team member's name:
-Second team member's login:
+Second team member's name: Eric Wu   
+Second team member's login: CS61b-gk
 
-Third team member's name (if any):
-Third team member's login:
+Third team member's name (if any): Lisang Zhou                            
+Third team member's login: CS61b-gl
 
 IMPORTANT:  Once you've submitted Project 2 once, the same team member should
 submit always.  If a different teammate must submit, inform cs61b@cory.eecs of
@@ -19,25 +19,27 @@ code together, you may not change partners without the permission of the
 instructor.
 ===============================================================================
 Does your program compile without errors?
-
+Yes
 
 Have you tested your program on the machines in the Soda CS 61B lab?
-
+Yes
 
 Did you successfully implement game tree search?  Did you successfully
 implement alpha-beta pruning?  Are there any limitations on it?  What is the
 default number of search levels set by the one-parameter MachinePlayer
 constructor?
-
+Yes, with alpha-beta pruning. The default search depth is 4. 
 
 Describe your board evaluation function in some detail.
-
+The evaluation function gives a higher score depending on how many more connections "this" player has to opponent player.
+If the network is complete for "this" player, a max score of "1000 + depth" is given.
+If the netwoek is complete for the opponent, a min score of "-(1000 + depth)" is given. 
 
 Does your MachinePlayer use any special method of choosing the first few moves?
-
+Yes. Higher score given to goal squares. 
 
 Is there anything else the graders should know to help them read your project?
-
+Nothing
 
 
 Describe the classes, modules, and interfaces you designed before and while you
