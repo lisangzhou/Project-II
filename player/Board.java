@@ -268,8 +268,6 @@ public class Board {
 	public boolean isNetworkComplete(int player) {
 		boolean reachedGoal = false;
 		int[][] exploration = new int[WIDTH][HEIGHT];
-		// System.out.println("Exploration is initialized to");
-		// printArray(exploration);
 		Coordinate notACoordinate = new Coordinate();
 		if (player == WHITE) {
 			int i = 0;
@@ -291,19 +289,20 @@ public class Board {
 		}
 		return reachedGoal;
 	}
-
+	/**
+	 * networkReachesGoal returns a true if the network beginning at origin reaches the opposite goal. This function is based on depth-first search
+	 * @param player is the player whose pieces the method is searching through
+	 * @param origin is the Coordinate of the first piece in a potential network. origin must be in one of the goals, or the method may behave strangely
+	 * @param currCoord is the Coordinate of the piece currently being explored
+	 * @param prevCoord is the Coordinate of the piece previously explored (one node up in DFS)
+	 * @param exploration is an array with the same dimensions as the board which is used to keep track of which nodes have already been explored.
+		An entry in the array is 1 if the node has already been explored, and 0 if it has not been explored
+	 * @param depth is the minimum number of additional nodes (not including the first node) necessary to form a complete network
+	**/
 	private boolean networkReachesGoal(int player, Coordinate origin, Coordinate currCoord, Coordinate prevCoord, int[][] exploration, int depth) {
 		int explored = 1;
 		int unexplored = 0;
-		// System.out.println("The current search depth is " + depth);
-		// System.out.println("The current coordinate being checked is " +
-		// currCoord);
-		// if piece doesn't match player, return false
-		// if the depth is below the minimum and the current piece is on the
-		// opposite end of the origin
-		// a valid network has been formed and return true
-		// if the current node is an edge, and no valid network is formed, return
-		// false
+
 		if (getPiece(currCoord.getX(), currCoord.getY()) != player) {
 			return false;
 		} else if (inBothGoals(origin, currCoord) && depth <= 0) {
@@ -396,75 +395,6 @@ public class Board {
 		int x = coordinate.getX();
 		int y = coordinate.getY();
 		return (x == 0) || (x == WIDTH - 1) || (y == 0) || (y == HEIGHT - 1);
-	}
-
-	public static void main(String args[]) {
-		Board testBoard = new Board();
-		// testBoard.printBoard();
-
-		/*
-		 * 
-		 * testBoard.addPiece(BLACK,3,4); testBoard.printBoard();
-		 * testBoard.addPiece(BLACK,1,0); testBoard.printBoard();
-		 * testBoard.addPiece(BLACK,3,2); testBoard.addPiece(BLACK,5,4);
-		 * testBoard.printBoard(); testBoard.addPiece(BLACK,4,5);
-		 * testBoard.printBoard(); testBoard.addPiece(BLACK,4,7);
-		 * testBoard.printBoard(); //System.out.println(testBoard.isInGoal(new
-		 * Coordinate(1,0))); //System.out.println(testBoard.inBothGoals(new
-		 * Coordinate(1,0), new Coordinate(4,7))); //
-		 * System.out.println(testBoard.getAllConnections(BLACK,new
-		 * Coordinate(1,0))); System.out.println("Valid network formed: " +
-		 * testBoard.isNetworkComplete(BLACK));
-		 * 
-		 * 
-		 * testBoard.addPiece(WHITE,2,1); testBoard.printBoard();
-		 * System.out.println("Valid network formed: " +
-		 * testBoard.isNetworkComplete(BLACK));
-		 */
-		/*
-		 * //testBoard.addPiece(BLACK,2,0); testBoard.addPiece(BLACK,6,0);
-		 * testBoard.addPiece(BLACK,4,2); testBoard.addPiece(BLACK,3,3);
-		 * //testBoard.addPiece(BLACK,1,3); testBoard.addPiece(BLACK,2,5);
-		 * testBoard.addPiece(BLACK,3,5); //testBoard.addPiece(BLACK,5,5);
-		 * //testBoard.addPiece(BLACK,6,5); testBoard.addPiece(BLACK,2,7);
-		 * //testBoard.addPiece(BLACK,5,7); //testBoard.printBoard();
-		 * //System.out.println("Valid network formed " +
-		 * testBoard.isNetworkComplete(BLACK)); //
-		 * System.out.println(testBoard.isValidMove(new Move(4,6), BLACK));
-		 * testBoard.printBoard();
-		 * System.out.println(testBoard.generateAllPossibleMoves(BLACK));
-		 */
-
-		Move testMove = new Move(1, 1);
-		System.out.println(testMove.x1 + " " + testMove.y1);
-		System.out.println(testMove.x2 + " " + testMove.y2);
-
-	}
-
-	private void addPiece(int player, int x, int y) {
-		Move addMove = new Move(x, y);
-		makeMove(addMove, player);
-
-	}
-
-	public void printBoard() {
-		System.out.println("New Board is ");
-		for (int i = 0; i < HEIGHT; i++) {
-			for (int j = 0; j < WIDTH; j++) {
-				System.out.print(getPiece(j, i) + " ");
-			}
-			System.out.println();
-		}
-
-	}
-
-	public void printArray(int[][] array) {
-		for (int i = 0; i < HEIGHT; i++) {
-			for (int j = 0; j < WIDTH; j++) {
-				System.out.print(array[i][j] + " ");
-			}
-			System.out.println();
-		}
 	}
 
 }

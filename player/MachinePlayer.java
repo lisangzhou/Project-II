@@ -59,7 +59,7 @@ public class MachinePlayer extends Player {
 	/** Private function used by chooseMove, opponentMove, and forceMove
 	 *  Makes a move on the board after verifying that the move is valid
 	 *  otherwise, return false
-	 *  @param m: the move planed
+	 *  @param m: the move planned
 	 *  @param color: the color of the player
 	 **/private boolean moving(Move m, int color) {
 		if (board.isValidMove(m, color)) {
