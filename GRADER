@@ -151,7 +151,6 @@ grade.
 
 
 
-
    ## NAME: all connections                                     
    ## IMPLEMENTATED BY: Eric Wu  
    ## IMPLEMENTATED IN: Board
@@ -164,13 +163,54 @@ grade.
    *  @param player is the player (BLACK or WHITE) whose connections are being found.
    *  @return DList of all the coordinates that form connections with the given coordinate and player.
    */
-    protected DList getAllConnections(int player, Coordinate c);    
+    protected DList getAllConnections(int player, Coordinate c);   
 
 
 
 
-                   
 
+   ## NAME: evaluation                                     
+   ## IMPLEMENTATED BY:  Mukund Chillakanti ; Eric Wu ; Lisang Zhou
+   ## IMPLEMENTATED IN: MachinePlayer
+   ## DESCRIPTION: Evaluates a board and assigns a maximum positive score to MachinePlayer victory and a minimum score to
+                   opponent victory
+   ## INTERFACE:
+   /**
+     * evaluateMove(Board b, int depth), evaluates a board, assigning a score to it. It assigns a maximum
+     * positive score to a win by the MachinePlayer, a minimum negative score to
+     * win by the opponent, and an intermediate score to a board where neither player has completed a network. 
+     * The evaluation function also assigns a higher score to a win in a shorter number of moves (for example a win in 1 move, versus a win in 3 moves).
+     * To evaluate boards where no win exists, the evaluation function adds the number of computer connections for each chip and the number of computer pieces 
+     * in goal squares. From this value, it subtracts the number of opponent connections for each chip and the number of opponent pieces in goal squares.
+     * 
+     * @param b: the Board object being evaluated
+     * @param depth: depth at which the Board b is reached
+     * @return a double that is the evaluated score of the board b. 
+     **/
+    private double evaluateMove(Board b, int depth)
+   
+  
+
+
+
+   ## NAME: miniMax                                   
+   ## IMPLEMENTATED BY:  Mukund Chillakanti ; Lisang Zhou
+   ## IMPLEMENTATED IN: MachinePlayer
+   ## DESCRIPTION: miniMax finds best move on the game tree. Uses Alpha Beta Pruning.
+   ## INTERFACE:
+   /** miniMax is a private function that finds the best move on the game tree. Uses Alpha Beta Pruning. 
+     *  @param color: color being searched 
+     *  @param depth: the depth intended for searching
+     *  @param alpha: score that the computer knows with certainty it can achieve
+     *  @param beta:  the opponent can achieve a score of beta or lower.
+     *  @return an EvaluatedMove object that contains the move and value of the best possible move.
+     **/
+    private EvaluatedMove miniMax(int color, int depth, double alpha, double beta) 
+
+
+
+
+    ****** These are not in a module but are public interfaces ; just ignore them or put them in a new one? ********
     #### DList
      public DList();
      /**
