@@ -61,6 +61,7 @@ public class MachinePlayer extends Player {
 	 *  otherwise, return false
 	 *  @param m: the move planned
 	 *  @param color: the color of the player
+	 *  @return true if the move is successfully made. false if not (i.e. the move was invalid).
 	 **/private boolean moving(Move m, int color) {
 		if (board.isValidMove(m, color)) {
 			board.makeMove(m, color);
@@ -81,11 +82,12 @@ public class MachinePlayer extends Player {
 		}
 	}
 
-	/** Private function that finds the best move on the game tree. Uses Alpha Beta Pruning. 
+	/** miniMax is a private function that finds the best move on the game tree. Uses Alpha Beta Pruning. 
 	 *  @param color: color being searched 
 	 *  @param depth: the depth intended for searching
 	 *  @param alpha: score that the computer knows with certainty it can achieve
-	 *  @param beta:  the opponent can achieve a score of β or lower.
+	 *  @param beta:  the opponent can achieve a score of beta or lower.
+	 *  @return an EvaluatedMove object that contains the move and value of the best possible move.
 	 **/
 	private EvaluatedMove miniMax(int color, int depth, double alpha, double beta) {
 
@@ -139,14 +141,16 @@ public class MachinePlayer extends Player {
 	}
 
 	/**
-	 * Evaluates moves, assigning a score to each one. It assigns a maximum
+	 * evaluateMove(Board b, int depth), evaluates a board, assigning a score to it. It assigns a maximum
 	 * positive score to a win by the MachinePlayer, a minimum negative score to
-	 * win by the opponent, and an intermediate score to a board where neither
-	 * player has completed a network. Return the difference between playerscore 
-	 * and opponent score. 
+	 * win by the opponent, and an intermediate score to a board where neither player has completed a network. 
+	 * The evaluation function also assigns a higher score to a win in a shorter number of moves (for example a win in 1 move, versus a win in 3 moves).
+	 * To evaluate boards where no win exists, the evaluation function adds the number of computer connections for each chip and the number of computer pieces 
+	 * in goal squares. From this value, it subtracts the number of opponent connections for each chip and the number of opponent pieces in goal squares.
 	 * 
 	 * @param b: the Board object being evaluated
-	 * @param depth: (depth of the network>? i am not exactly sure)
+	 * @param depth: depth at which the Board b is reached
+	 * @return a double that is the evaluated score of the board b. 
 	 **/
 	private double evaluateMove(Board b, int depth) {
 

@@ -1,40 +1,38 @@
 package player;
 
-/**
- * A public class for holding all the fields in a move. This class is a
- * container for data, not an ADT.
- * 
- * move field contains a Move object that has been choosen value field is the
- * assigned value from (Alpha Beta Pruning) miniMax method; greated value means
- * more preferred
- * 
- * The range of value field is (NEGATIVE_INFINITY,POSITIVE_INFINITY)
- * 
- * DO NOT CHANGE THIS FILE.
- */
 public class EvaluatedMove {
 
 	protected Move move;
 	protected double value;
 
 	/**
-	 * return move
-	 **/
+	 * getMove() is a getter method for the move of the EvaluatedMove.
+	 * @return move of the EvaluatedMove
+	 */
 	public Move getMove() {
 		return move;
 	}
 
 	/**
-	 * return value
-	 **/
+	 * getValue() is a getter method for the value of the EvaluatedMove.
+	 * @return value of the EvaluatedMove
+	 */
 	public double getValue() {
 		return value;
 	}
 	
+	/**
+	 * setMove(Move m) is a setter method for the move of the EvaluatedMove.
+	 * @param m is the move to set
+	 */
 	protected void setMove(Move m) {
 		move = m;
 	}
 	
+	/**
+	 * setValue(double v) is a setter method for the value of the EvaluatedMove.
+	 * @param v is the value to set
+	 */
 	protected void setValue(double v) {
 		value = v;
 	}
