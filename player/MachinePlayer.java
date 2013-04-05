@@ -3,12 +3,10 @@ package player;
 
 import list.*;
 
-import java.util.Random;
-
 /**
  * An implementation of an automatic Network player. Keeps track of moves made
  * by both players. Can select a move for itself.
- */
+ **/
 public class MachinePlayer extends Player {
 
 	public static final int DEEP = 4;
@@ -16,47 +14,54 @@ public class MachinePlayer extends Player {
 	protected int depth;
 	protected Board board;
 
-	// Creates a machine player with the given color. Color is either 0 (black)
-	// or 1 (white). (White has the first move.)
+	/**Creates a machine player with the given color. Color is either 0 (black)
+	 * or 1 (white). (White has the first move.)
+	 **/
 	public MachinePlayer(int color) {
 		this(color, DEEP);
 	}
 
-	// Creates a machine player with the given color and search depth. Color is
-	// either 0 (black) or 1 (white). (White has the first move.)
+	/** Creates a machine player with the given color and search depth. Color is
+	 * either 0 (black) or 1 (white). (White has the first move.)
+	 **/
 	public MachinePlayer(int color, int searchDepth) {
 		this.color = color;
 		this.depth = searchDepth;
 		board = new Board();
 	}
 
-	// Returns a new move by "this" player. Internally records the move (updates
-	// the internal game board) as a move by "this" player.
+	/** Returns a new move by "this" player. Internally records the move (updates
+	 *  the internal game board) as a move by "this" player.
+	 **/
 	public Move chooseMove() {
 		Move playerMove = miniMax(color, depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).getMove();
 		moving(playerMove, color);
 		return playerMove;
 	}
 
-	// If the Move m is legal, records the move as a move by the opponent
-	// (updates the internal game board) and returns true. If the move is
-	// illegal, returns false without modifying the internal state of "this"
-	// player. This method allows your opponents to inform you of their moves.
-	public boolean opponentMove(Move m) {
+	/** If the Move m is legal, records the move as a move by the opponent
+	 * (updates the internal game board) and returns true. If the move is
+	 * illegal, returns false without modifying the internal state of "this"
+	 * player. This method allows your opponents to inform you of their moves.
+	 **/public boolean opponentMove(Move m) {
 		return moving(m, colorOpponent());
 	}
 
-	// If the Move m is legal, records the move as a move by "this" player
-	// (updates the internal game board) and returns true. If the move is
-	// illegal, returns false without modifying the internal state of "this"
-	// player. This method is used to help set up "Network problems" for your
-	// player to solve.
-	public boolean forceMove(Move m) {
+	/** If the Move m is legal, records the move as a move by "this" player
+	 *  (updates the internal game board) and returns true. If the move is
+	 *  illegal, returns false without modifying the internal state of "this"
+	 *  player. This method is used to help set up "Network problems" for your
+	 *  player to solve.
+	**/ public boolean forceMove(Move m) {
 		return moving(m, color);
 	}
 
-	// private function used by chooseMove, opponentMove, and forceMove
-	private boolean moving(Move m, int color) {
+	/** Private function used by chooseMove, opponentMove, and forceMove
+	 *  Makes a move on the board after verifying that the move is valid
+	 *  otherwise, return false
+	 *  @param m: the move planed
+	 *  @param color: the color of the player
+	 **/private boolean moving(Move m, int color) {
 		if (board.isValidMove(m, color)) {
 			board.makeMove(m, color);
 			return true;
@@ -65,7 +70,9 @@ public class MachinePlayer extends Player {
 		}
 	}
 
-	// getting the color of the opponent
+	/** Private function for convenience. Returns the opponent of the player. 
+	 *  ie: return BLACK if "this" player is WHITE
+	 **/
 	private int colorOpponent() {
 		if (this.color == Board.BLACK) {
 			return Board.WHITE;
@@ -74,7 +81,12 @@ public class MachinePlayer extends Player {
 		}
 	}
 
-	// miniMax function to be used later
+	/** Private function that finds the best move on the game tree. Uses Alpha Beta Pruning. 
+	 *  @param color: color being searched 
+	 *  @param depth: the depth intended for searching
+	 *  @param alpha: score that the computer knows with certainty it can achieve
+	 *  @param beta:  the opponent can achieve a score of β or lower.
+	 **/
 	private EvaluatedMove miniMax(int color, int depth, double alpha, double beta) {
 
 		EvaluatedMove myMove = new EvaluatedMove(); 
@@ -130,14 +142,12 @@ public class MachinePlayer extends Player {
 	 * Evaluates moves, assigning a score to each one. It assigns a maximum
 	 * positive score to a win by the MachinePlayer, a minimum negative score to
 	 * win by the opponent, and an intermediate score to a board where neither
-	 * player has completed a network.
+	 * player has completed a network. Return the difference between playerscore 
+	 * and opponent score. 
 	 * 
-	 * @param b
-	 *          is the Board object being evaluated
-	 * @param player
-	 *          is the player whose turn it is
+	 * @param b: the Board object being evaluated
+	 * @param depth: (depth of the network>? i am not exactly sure)
 	 **/
-
 	private double evaluateMove(Board b, int depth) {
 
 		int playerScore = 0;
