@@ -45,8 +45,4 @@ public class Coordinate{
     return x == other.getX() && y == other.getY();
   }
 
-  // debugging code. get rid of in the final product
-  public String toString(){
-    return "(" + x + "," + y + ")";
-  }
 }
