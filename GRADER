@@ -31,12 +31,20 @@ constructor?
 Yes, with alpha-beta pruning. The default search depth is 4. 
 
 Describe your board evaluation function in some detail.
-The evaluation function gives a higher score depending on how many more connections "this" player has to opponent player.
-If the network is complete for "this" player, a max score of "1000 + depth" is given.
-If the netwoek is complete for the opponent, a min score of "-(1000 + depth)" is given. 
+
+The evaluation function gives a maximum positive score to a win by the MachinePlayer, a minimum negative score to a win by the opponent,
+and an intermediate score to a board where neither player has completed a network. The function also assigns a higher score to a win 
+in a shorter number of moves (for example a win in 1 move, versus a win in 3 moves). 
+
+More specifically, If the network is complete for "this" player, a max score of "1000 + depth" is returned.
+If the network is complete for the opponent, a min score of "-(1000 + depth)" is returned. 
+
+To evaluate boards where no win exists, the evaluation function adds the number of computer connections for each chip and the number of computer pieces in goal squares.
+From this value,it subtracts the number of opponent connections for each chip and the number of opponent pieces in goal squares.
 
 Does your MachinePlayer use any special method of choosing the first few moves?
-Yes. Higher score given to goal squares. 
+No, the evaluation function chooses every move in the same way. However, by adding value to boards which contain computer pieces in goal squares, the first few 
+moves by the MachinePlayer are typically placed in the goals.
 
 Is there anything else the graders should know to help them read your project?
 Nothing
