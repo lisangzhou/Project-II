@@ -111,25 +111,27 @@ public class Board {
             }
         }
         
-        makeMove(m, player);
-        DList neighbors = neighbors(m.x1, m.y1, player);
-        if (neighbors.length() > 1) {
-            undoMove(m, player);
-            return false;
-        } else if (neighbors.length() < 1) {
-            undoMove(m, player);
-            return true;
+        
+        makeMove(m, player);  
+        DList n = neighbors(m.x1,m.y1, player);
+        if (n.length() > 1){
+          undoMove(m,player);
+          return false;
+        } else if (n.length() < 1){
+           undoMove(m,player);
+          return true;
         } else {
-            DList neighborsOfNeighbor = new DList();
-            try {
-                neighborsOfNeighbor = neighbors(((Coordinate) neighbors.front().item()).getX(), ((Coordinate) neighbors.front().item()).getY(), player);
-            } catch (InvalidNodeException e) {}
-            if (neighborsOfNeighbor.length() > 1) {
-                undoMove(m, player);
-                return false;
-            }
+          DList n1 = new DList();
+          try {
+            n1 = neighbors(( (Coordinate) n.front().item()).getX(), ((Coordinate) n.front().item()).getY(), player);
+          } catch (InvalidNodeException e) {}
+          if (n1.length() > 1){
+              undoMove(m,player);
+            return false;
+          }
         }
-        undoMove(m, player);
+        undoMove(m,player);
+        
         return true;
     }
     
